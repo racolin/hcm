@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">hcm</string>
+    <string name="version_lable">Version</string>
+    <string name="version">1.0.0</string>
+
+    <string name="username_label">Username</string>
+    <string name="username_hint">Enter username</string>
+    <string name="password_label">Password</string>
+    <string name="password_hint">Enter password</string>
+    <string name="remember_login">Remember my login on device</string>
+
+    <string name="signin">Sign in</string>
+    <string name="note">
+        Can\'t access your account? Please contact your <font color="#1B65E3">administrators</font>.
+    </string>
+
+    <string name="working_time">Working Time</string>
+    <string name="bv_calendar">BV Calender</string>
+    <string name="payslip">Payslip</string>
+    <string name="seat_map">Seat Map</string>
+    <string name="employees">Employees</string>
+    <string name="organization_chart">Organization Chart</string>
+    <string name="request_management">Request Management</string>
+    <string name="more_tools">More Tools</string>
+
+    <string name="morning">Good Morning, </string>
+    <string name="afternoon">Good Afternoon, </string>
+    <string name="evening">Good Evening, </string>
+    <string name="welcome">Welcome Back, </string>
+    <string name="hand">👋</string>
+</resources>

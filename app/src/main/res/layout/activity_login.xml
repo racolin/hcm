@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:src="@drawable/slider_login"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="15dp">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/username_label"/>
+
+        <EditText
+            android:id="@+id/edt_username"
+            android:inputType="text"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:hint="@string/username_hint"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/round_15"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/password_label"/>
+
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/round_15"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword"
+                android:paddingHorizontal="15dp"
+                android:textSize="14sp" />
+            <ImageButton
+                android:id="@+id/ibt_eye"
+                android:layout_marginEnd="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_eye_off"
+                android:background="@null"
+                app:tint="@color/light_text"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+
+        <CheckBox
+            android:layout_marginTop="20dp"
+            android:id="@+id/cbx_remeber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remember_login"
+            android:fontFamily="@font/inter_semibold"/>
+
+        <Button
+            android:id="@+id/btn_sigin"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:text="@string/signin"
+            android:fontFamily="@font/inter_semibold"
+            android:background="@drawable/button_blue"
+            app:backgroundTint="@color/blue"/>
+        
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/note"/>
+    </LinearLayout>
+</LinearLayout>
