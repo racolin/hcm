@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_signin;
     EditText edt_username, edt_password;
     CheckBox cbx_remember;
-    ImageButton ibt_eye;
+    ImageButton ibt_eye, ibt_clear_username;
     static boolean eye_off = true;
 
     @Override
@@ -38,8 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_signin = findViewById(R.id.btn_sigin);
         edt_password = findViewById(R.id.edt_password);
         edt_username = findViewById(R.id.edt_username);
-        cbx_remember = findViewById(R.id.cbx_remeber);
+        cbx_remember = findViewById(R.id.cbx_remember);
         ibt_eye = findViewById(R.id.ibt_eye);
+        ibt_clear_username = findViewById(R.id.ibt_clear_username);
     }
 
     private void initListener() {
@@ -58,6 +59,24 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 edt_password.setTypeface(cache);
+            }
+        });
+
+        ibt_clear_username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edt_username.setText("");
+            }
+        });
+
+        edt_username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (edt_username.getText().toString().equals("")) {
+                    edt_username.setText(getString(R.string.username_hint));
+                }
+                int visible = b ? View.VISIBLE : View.INVISIBLE;
+                ibt_clear_username.setVisibility(visible);
             }
         });
 

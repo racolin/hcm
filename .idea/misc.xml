@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/hcm/app/src/main/res/drawable/edittext.xml" value="0.1685" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/edittext_focus.xml" value="0.1685" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/round_15.xml" value="0.1685" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_home.xml" value="0.4" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_login.xml" value="0.27447916666666666" />
+        <entry key="..\:/hcm/app/src/main/res/layout/slider.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/button_blue.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/eye.xml" value="0.209" />

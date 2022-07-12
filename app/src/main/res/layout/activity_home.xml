@@ -47,16 +47,31 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hand"/>
         </LinearLayout>
+
         <androidx.cardview.widget.CardView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardCornerRadius="25dp"
             android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/blue"/>
+            app:cardCornerRadius="25dp">
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/avatar"/>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp2_slider"
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/vp2_slider"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:paddingHorizontal="32dp"-->
+<!--        android:clipToPadding="false"-->
+<!--        android:layout_height="200dp"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_slider"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="200dp"
+        android:nestedScrollingEnabled="false"
+        />
 </LinearLayout>
