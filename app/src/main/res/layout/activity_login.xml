@@ -1,150 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
-
-    <ImageView
-        android:id="@+id/iv_banner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layout_username"
-        app:layout_constraintVertical_chainStyle="spread_inside"
+    android:layout_width="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="222dp"
-        android:src="@drawable/slider_login"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/layout_username"
-        app:layout_constraintTop_toBottomOf="@id/iv_banner"
-        app:layout_constraintBottom_toTopOf="@id/layout_password"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginHorizontal="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/iv_banner"
+            android:layout_width="match_parent"
+            android:layout_height="222dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/slider_login"
+            app:layout_constraintBottom_toTopOf="@id/layout_username"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <LinearLayout
+            android:id="@+id/layout_username"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark"
-            android:fontFamily="@font/inter_semibold"
-            android:text="@string/username_label"/>
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/layout_password"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_banner">
 
-
-
-        <RelativeLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edt_username"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:hint="@string/username_hint"
-                android:inputType="text"
-                android:paddingHorizontal="16dp"
-                android:background="@drawable/edittext"
-                android:textSize="14sp"/>
-            <ImageButton
-                android:id="@+id/ibt_clear_username"
-                android:visibility="invisible"
-                android:layout_marginEnd="15dp"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_clear"
-                android:background="@null"
-                app:tint="@color/light_text"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_password"
-        app:layout_constraintTop_toBottomOf="@id/layout_username"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cbx_remember"
-        android:layout_marginHorizontal="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/dark"
-            android:fontFamily="@font/inter_semibold"
-            android:text="@string/password_label"/>
+                android:fontFamily="@font/inter_semibold"
+                android:text="@string/username_label"
+                android:textColor="@color/dark" />
 
-        <RelativeLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/edt_password"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@drawable/edittext"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                android:paddingHorizontal="16dp"
-                android:textSize="14sp" />
-            <ImageButton
-                android:id="@+id/ibt_eye"
-                android:layout_marginEnd="15dp"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_eye_off"
-                android:background="@null"
-                app:tint="@color/light_text"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
+                android:layout_marginTop="15dp">
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/edt_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/edittext"
+                    android:hint="@string/username_hint"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
 
-    <CheckBox
-        android:id="@+id/cbx_remember"
-        app:layout_constraintTop_toBottomOf="@id/layout_password"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_sigin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/remember_login"
-        android:fontFamily="@font/inter_semibold"/>
+                <ImageButton
+                    android:id="@+id/ibt_clear_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="invisible"
+                    app:tint="@color/light_text" />
+            </RelativeLayout>
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_sigin"
-        app:layout_constraintTop_toBottomOf="@id/cbx_remember"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_note"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:text="@string/signin"
-        android:fontFamily="@font/inter_semibold"
-        android:background="@drawable/button_blue"
-        app:backgroundTint="@color/blue"/>
+        <LinearLayout
+            android:id="@+id/layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/cbx_remember"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_username">
 
-    <TextView
-        android:id="@+id/tv_note"
-        app:layout_constraintTop_toBottomOf="@id/btn_sigin"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/note"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="@string/password_label"
+                android:textColor="@color/dark" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/edittext"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
+
+                <ImageButton
+                    android:id="@+id/ibt_eye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_eye_off"
+                    app:tint="@color/light_text" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cbx_remember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/remember_login"
+            app:layout_constraintTop_toBottomOf="@id/layout_password"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_check" />
+
+        <TextView
+            android:id="@+id/tv_check"
+            android:visibility="invisible"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/login_not_success"
+            android:textColor="@color/red"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbx_remember"
+            app:layout_constraintBottom_toTopOf="@id/btn_sigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_sigin"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_blue"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/signin"
+            app:backgroundTint="@color/blue"
+            app:layout_constraintBottom_toTopOf="@id/tv_note"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_check" />
+
+
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/note"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_sigin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="711dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

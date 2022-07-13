@@ -1,9 +1,10 @@
 package com.banvie.hcm.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Tool {
+public class Tool implements Serializable {
     private String name;
     private byte[] image;
     private boolean isShow = true;
@@ -13,16 +14,20 @@ public class Tool {
         this.image = image;
     }
 
-    public boolean setShow() {
-        return true;
+    public void setShow() {
+        isShow = true;
     }
 
-    public void unsetShow() {
+    public void setHide() {
         isShow = false;
     }
 
-    public boolean getShow() {
+    public boolean isShow() {
         return isShow;
+    }
+
+    public boolean isHide() {
+        return !isShow;
     }
 
     public String getName() {

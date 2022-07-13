@@ -34,4 +34,10 @@
     <string name="checkout">Check out at</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="login_not_success">Username and password not found!</string>
+
+    <string name="showing_tools">Tools Shown</string>
+    <string name="hidden_tools">Hidden Tools</string>
+    <string name="press_to_back">Press back again to exit!</string>
 </resources>

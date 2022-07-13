@@ -1,5 +1,6 @@
 package com.banvie.hcm.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +21,25 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.banvie.hcm.listener.OnClickToolListener;
+import com.banvie.hcm.adapter.ToolAdapter;
+import com.banvie.hcm.dialog.FilterAndRemoveToolDialog;
 import com.banvie.hcm.R;
 import com.banvie.hcm.Support;
 import com.banvie.hcm.adapter.NoticeAdapter;
 import com.banvie.hcm.adapter.SliderAdapter;
+import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
 import com.banvie.hcm.model.Notice;
 import com.banvie.hcm.model.Tool;
+import com.banvie.hcm.type.ToolsType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnClickToolListener {
+public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolListener {
+    List<Tool> tools;
+    RecyclerView rv_tools;
+    ToolAdapter adapter_tools;
+
     List<byte[]> sliders;
     RecyclerView rv_notices;
     Handler handler;
@@ -60,10 +70,20 @@ public class HomeFragment extends Fragment implements OnClickToolListener {
     }
 
     private void initUI(View view) {
-        FragmentManager manager = getChildFragmentManager();
-        manager.beginTransaction()
-                .add(R.id.fg_tools, new ToolFragment(getTools(), getString(R.string.bv_tools), 4))
-                .commit();
+//        FragmentManager manager = getChildFragmentManager();
+//        manager.beginTransaction()
+//                .add(R.id.fg_tools, new ToolFragment(getToolShown(), getString(R.string.bv_tools), 4))
+//                .commit();
+
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.tool_fragment, null);
+        ((TextView) v.findViewById(R.id.tv_title)).setText(R.string.bv_tools);
+        tools = getTools();
+        adapter_tools = new ToolAdapter(getContext(), getToolShown(), ToolsType.HIGH_LIGHT);
+        rv_tools = v.findViewById(R.id.rv_tools);
+        rv_tools.setAdapter(adapter_tools);
+        rv_tools.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        FrameLayout layout = view.findViewById(R.id.fg_tools);
+        layout.addView(v);
 
         handler = new Handler(Looper.myLooper());
         getData();
@@ -84,7 +104,8 @@ public class HomeFragment extends Fragment implements OnClickToolListener {
         ibt_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Dialog dialog = new FilterAndRemoveToolDialog(getContext(), HomeFragment.this, getToolShown(), getHiddenTool());
+                dialog.show();
             }
         });
 
@@ -96,6 +117,15 @@ public class HomeFragment extends Fragment implements OnClickToolListener {
                 handler.postDelayed(runnable, 4000);
             }
         });
+    }
+
+    @Override
+    public void setOnClickAddOrRemoveTool(Tool tool) {
+        if (tool.isShow()) {
+            adapter_tools.addTool(tool);
+        } else {
+            adapter_tools.removeTool(tool);
+        }
     }
 
     private void getData() {
@@ -130,6 +160,26 @@ public class HomeFragment extends Fragment implements OnClickToolListener {
         return notices;
     }
 
+    private List<Tool> getHiddenTool() {
+        List<Tool> hides = new ArrayList<>();
+        for (Tool tool : tools) {
+            if (tool.isHide()) {
+                hides.add(tool);
+            }
+        }
+        return hides;
+    }
+
+    private List<Tool> getToolShown() {
+        List<Tool> shows = new ArrayList<>();
+        for (Tool tool : tools) {
+            if (tool.isShow()) {
+                shows.add(tool);
+            }
+        }
+        return shows;
+    }
+
     private List<Tool> getTools() {
         List<Tool> tools = new ArrayList<>();
         tools.add(new Tool(getString(R.string.working_time), Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.working_time))));
@@ -143,14 +193,9 @@ public class HomeFragment extends Fragment implements OnClickToolListener {
         SharedPreferences preferences = getContext().getSharedPreferences("tools_status", Context.MODE_PRIVATE);
         for (Tool tool : tools) {
             if (preferences.getBoolean(tool.getName(), false)) {
-                tool.unsetShow();
+                tool.setHide();
             }
         }
         return tools;
-    }
-
-    @Override
-    public void setOnClickMore() {
-
     }
 }

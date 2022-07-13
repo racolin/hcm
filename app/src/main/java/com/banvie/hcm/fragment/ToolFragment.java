@@ -1,6 +1,8 @@
 package com.banvie.hcm.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.banvie.hcm.type.ToolsType;
 import com.banvie.hcm.adapter.ToolAdapter;
 import com.banvie.hcm.model.Tool;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ToolFragment extends Fragment {
@@ -25,6 +28,10 @@ public class ToolFragment extends Fragment {
     List<Tool> tools;
     String title;
     int columns;
+
+    public ToolFragment() {
+
+    }
 
     public ToolFragment(List<Tool> tools, String title, int columns) {
         this.tools = tools;
