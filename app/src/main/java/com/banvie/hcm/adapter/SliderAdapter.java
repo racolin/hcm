@@ -1,19 +1,16 @@
-package com.banvie.hcm;
+package com.banvie.hcm.adapter;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.banvie.hcm.R;
 
 import java.util.List;
 
@@ -48,11 +45,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderHold
         public SliderHolder(@NonNull View itemView) {
             super(itemView);
             iv_slider = itemView.findViewById(R.id.iv_slider);
-
-//            Đặt kích thước của item thành 4/5 nửa màn hình
-            DisplayMetrics metrics = new DisplayMetrics();
-            int width = ((AppCompatActivity) context).getResources().getDisplayMetrics().widthPixels;
-            itemView.setLayoutParams(new RecyclerView.LayoutParams(width * 4 / 5, RecyclerView.LayoutParams.WRAP_CONTENT));
         }
     }
 }
