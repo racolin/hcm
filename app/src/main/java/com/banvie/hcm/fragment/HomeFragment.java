@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +17,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.banvie.hcm.adapter.ToolAdapter;
+import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.dialog.FilterAndRemoveToolDialog;
 import com.banvie.hcm.R;
 import com.banvie.hcm.Support;
 import com.banvie.hcm.adapter.NoticeAdapter;
 import com.banvie.hcm.adapter.SliderAdapter;
 import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
-import com.banvie.hcm.model.Notice;
+import com.banvie.hcm.listener.OnLoadedNoticesListener;
+import com.banvie.hcm.model.policy.Notice;
 import com.banvie.hcm.model.Tool;
 import com.banvie.hcm.type.ToolsType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolListener {
+public class HomeFragment extends Fragment implements
+        OnClickAddOrRemoveToolListener, OnLoadedNoticesListener {
     List<Tool> tools;
     RecyclerView rv_tools;
     ToolAdapter adapter_tools;
+    NoticeAdapter adapter_notices;
 
     List<byte[]> sliders;
     RecyclerView rv_notices;
@@ -70,10 +74,6 @@ public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolList
     }
 
     private void initUI(View view) {
-//        FragmentManager manager = getChildFragmentManager();
-//        manager.beginTransaction()
-//                .add(R.id.fg_tools, new ToolFragment(getToolShown(), getString(R.string.bv_tools), 4))
-//                .commit();
 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.tool_fragment, null);
         ((TextView) v.findViewById(R.id.tv_title)).setText(R.string.bv_tools);
@@ -89,7 +89,9 @@ public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolList
         getData();
 
         rv_notices = view.findViewById(R.id.rv_notices);
-        rv_notices.setAdapter(new NoticeAdapter(getContext(), getNotices()));
+        adapter_notices = new NoticeAdapter(getContext(), new ArrayList<>());
+        rv_notices.setAdapter(adapter_notices);
+
         rv_notices.setLayoutManager(new GridLayoutManager(
                 getContext(), 2
         ));
@@ -98,6 +100,8 @@ public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolList
 
         vp2_slider.setAdapter(new SliderAdapter(getContext(), sliders));
         ibt_filter = view.findViewById(R.id.ibt_filter);
+
+        RetrofitApi.callNotices(this);
     }
 
     private void initListener() {
@@ -132,32 +136,6 @@ public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolList
         sliders = new ArrayList<>();
         sliders.add(Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.slider_1)));
         sliders.add(Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.slider_2)));
-    }
-
-    private List<Notice> getNotices() {
-        List<Notice> notices = new ArrayList<>();
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        notices.add(new Notice("Announcement of new employee on boarding",
-                Support.convertStringToDate("Mar 23, 2021 15:35", "MMM dd, yyyy HH:mm"),
-                Support.convertDrawableToBytes(getContext().getDrawable(R.drawable.iv_notice))));
-        return notices;
     }
 
     private List<Tool> getHiddenTool() {
@@ -197,5 +175,17 @@ public class HomeFragment extends Fragment implements OnClickAddOrRemoveToolList
             }
         }
         return tools;
+    }
+
+    @Override
+    public void setOnLoadedNotices(List<Notice> notices) {
+        adapter_notices.setNotices(notices);
+        adapter_notices.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setOnLoadImageListener(byte[] image, int i) {
+        adapter_notices.getNotices().get(i).setImage(image);
+        adapter_notices.notifyItemChanged(i);
     }
 }

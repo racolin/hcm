@@ -40,4 +40,6 @@
     <string name="showing_tools">Tools Shown</string>
     <string name="hidden_tools">Hidden Tools</string>
     <string name="press_to_back">Press back again to exit!</string>
+    <string name="checkout_success">Success!</string>
+    <string name="checkout_not_success">Not success!</string>
 </resources>

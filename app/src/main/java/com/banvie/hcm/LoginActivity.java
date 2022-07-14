@@ -3,32 +3,60 @@ package com.banvie.hcm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class LoginActivity extends AppCompatActivity {
+import com.banvie.hcm.api.Header;
+import com.banvie.hcm.api.RetrofitApi;
+import com.banvie.hcm.listener.OnLoginListener;
+import com.banvie.hcm.param.UserParam;
+
+public class LoginActivity extends AppCompatActivity implements OnLoginListener {
 
     Button btn_signin;
     EditText edt_username, edt_password;
     CheckBox cbx_remember;
     ImageButton ibt_eye, ibt_clear_username;
+    TextView tv_check;
     static boolean eye_off = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences preferences = getSharedPreferences("token", MODE_PRIVATE);
+
+        Log.d("rrrtoken", preferences.getString("access_token", ""));
+
+        if (preferences != null) {
+            Header.ACCESS_TOKEN = preferences.getString("access_token", "");
+            Header.TOKEN_TYPE = preferences.getString("token_type", "");
+        }
+
+        if (!Header.ACCESS_TOKEN.equals("")) {
+            toHomeActivity();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         initUI();
+
+        preferences = getSharedPreferences("login", MODE_PRIVATE);
+        if (preferences != null) {
+            edt_username.setText(preferences.getString("username", getString(R.string.username_hint)));
+            edt_password.setText(preferences.getString("password", ""));
+        }
+
         initListener();
     }
 
@@ -36,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        tv_check = findViewById(R.id.tv_check);
         btn_signin = findViewById(R.id.btn_sigin);
         edt_password = findViewById(R.id.edt_password);
         edt_username = findViewById(R.id.edt_username);
@@ -84,16 +113,51 @@ public class LoginActivity extends AppCompatActivity {
         btn_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!checkLogin()) return;
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                finish();
+                checkLogin();
+            }
+        });
+
+        cbx_remember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+                if (b) {
+                    edt_username.setText(preferences.getString("username", getString(R.string.username_hint)));
+                    edt_password.setText(preferences.getString("password", ""));
+                    preferences.edit()
+                            .putString("username", edt_username.getText().toString())
+                            .putString("password", edt_password.getText().toString())
+                            .commit();
+                } else {
+                    preferences.edit().remove("username").remove("password").commit();
+                }
             }
         });
     }
 
-    private boolean checkLogin() {
+    private void checkLogin() {
         String username = edt_username.getText().toString();
         String password = edt_password.getText().toString();
-        return true;
+        UserParam userParam = new UserParam(username, password);
+        RetrofitApi.login(userParam, this);
+    }
+
+    private void toHomeActivity() {
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public void setOnLoginListener(boolean success) {
+        if (success) {
+            getSharedPreferences("token", MODE_PRIVATE).edit()
+                    .putString("access_token", Header.ACCESS_TOKEN)
+                    .putString("refresh_token", Header.REFRESH_TOKEN)
+                    .putString("token_type", Header.TOKEN_TYPE)
+                    .commit();
+                toHomeActivity();
+        } else {
+            tv_check.setVisibility(View.VISIBLE);
+        }
     }
 }

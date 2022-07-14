@@ -12,17 +12,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.banvie.hcm.R;
-import com.banvie.hcm.model.Notice;
+import com.banvie.hcm.api.RetrofitApi;
+import com.banvie.hcm.model.policy.Notice;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHolder> {
 
     List<Notice> notices;
     Context context;
+    Disposable disposable;
 
     public NoticeAdapter(Context context, List<Notice> notices) {
         this.context = context;
+        this.notices = notices;
+    }
+
+    public void update(List<Notice> notices) {
+        this.notices = notices;
+        notifyDataSetChanged();
+    }
+
+    public List<Notice> getNotices() {
+        return notices;
+    }
+
+    public void setNotices(List<Notice> notices) {
         this.notices = notices;
     }
 
@@ -34,9 +52,12 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHold
 
     @Override
     public void onBindViewHolder(@NonNull NoticeHolder holder, int position) {
-        holder.tv_title.setText(notices.get(position).getTitle());
+        holder.tv_title.setText(notices.get(position).getTopic());
         holder.tv_time.setText(notices.get(position).getTimeString("MMM dd, yyyy HH:mm"));
-        holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(notices.get(position).getImage(), 0, notices.get(position).getImage().length));
+        byte[] image = notices.get(position).getImage();
+        if (image != null) {
+            holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+        }
     }
 
     @Override
