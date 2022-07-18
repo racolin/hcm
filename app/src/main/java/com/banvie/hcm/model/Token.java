@@ -3,16 +3,24 @@ package com.banvie.hcm.model;
 public class Token {
     private String access_token;
     private String token_type;
+    private long expire_in;
+    private long receive;
     private String refresh_token;
 
-    public Token() {
-
+    public long getReceive() {
+        return receive;
     }
 
-    public Token(String access_token, String token_type, String refresh_token) {
-        this.access_token = access_token;
-        this.token_type = token_type;
-        this.refresh_token = refresh_token;
+    public void setReceive(long receive) {
+        this.receive = receive;
+    }
+
+    public long getExpire_in() {
+        return expire_in;
+    }
+
+    public void setExpire_in(long expire_in) {
+        this.expire_in = expire_in;
     }
 
     public String getAccess_token() {
@@ -37,5 +45,16 @@ public class Token {
 
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
+    }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                ", access_token='" + access_token + '\'' +
+                ", token_type='" + token_type + '\'' +
+                ", expire_in=" + expire_in +
+                ", receive=" + receive +
+                ", refresh_token='" + refresh_token + '\'' +
+                '}';
     }
 }

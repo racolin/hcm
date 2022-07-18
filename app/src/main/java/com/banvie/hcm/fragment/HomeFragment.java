@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.banvie.hcm.adapter.ToolAdapter;
+import com.banvie.hcm.api.Constant;
 import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.dialog.FilterAndRemoveToolDialog;
 import com.banvie.hcm.R;
@@ -30,10 +30,11 @@ import com.banvie.hcm.adapter.NoticeAdapter;
 import com.banvie.hcm.adapter.SliderAdapter;
 import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
 import com.banvie.hcm.listener.OnLoadedNoticesListener;
-import com.banvie.hcm.model.policy.Notice;
+import com.banvie.hcm.model.policy.Policy;
 import com.banvie.hcm.model.Tool;
 import com.banvie.hcm.type.ToolsType;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,11 +76,24 @@ public class HomeFragment extends Fragment implements
 
     private void initUI(View view) {
 
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.tool_fragment, null);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_tool, null);
         ((TextView) v.findViewById(R.id.tv_title)).setText(R.string.bv_tools);
+
+
+        LocalDateTime time = LocalDateTime.now();
+        int hour = time.getHour();
+        int welcome = R.string.evening;
+        if (hour < 12) {
+            welcome = R.string.morning;
+        } else if (hour < 18) {
+            welcome = R.string.afternoon;
+        }
+        ((TextView) view.findViewById(R.id.tv_welcome)).setText(welcome);
+        ((TextView) view.findViewById(R.id.tv_username)).setText(Constant.userInformation.getFullName());
+
         tools = getTools();
         adapter_tools = new ToolAdapter(getContext(), getToolShown(), ToolsType.HIGH_LIGHT);
-        rv_tools = v.findViewById(R.id.rv_tools);
+        rv_tools = v.findViewById(R.id.rv);
         rv_tools.setAdapter(adapter_tools);
         rv_tools.setLayoutManager(new GridLayoutManager(getContext(), 4));
         FrameLayout layout = view.findViewById(R.id.fg_tools);
@@ -178,8 +192,8 @@ public class HomeFragment extends Fragment implements
     }
 
     @Override
-    public void setOnLoadedNotices(List<Notice> notices) {
-        adapter_notices.setNotices(notices);
+    public void setOnLoadedNotices(List<Policy> policies) {
+        adapter_notices.setNotices(policies);
         adapter_notices.notifyDataSetChanged();
     }
 

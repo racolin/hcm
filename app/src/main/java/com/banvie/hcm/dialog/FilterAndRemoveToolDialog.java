@@ -47,17 +47,17 @@ public class FilterAndRemoveToolDialog extends Dialog implements OnClickAddOrRem
     private void initUI() {
         LinearLayout layout = findViewById(R.id.layout);
 
-        View show = LayoutInflater.from(getContext()).inflate(R.layout.tool_fragment, null);
+        View show = LayoutInflater.from(getContext()).inflate(R.layout.fragment_tool, null);
         ((TextView) show.findViewById(R.id.tv_title)).setText(R.string.showing_tools);
-        rv_tools_show = show.findViewById(R.id.rv_tools);
+        rv_tools_show = show.findViewById(R.id.rv);
         adapter_show = new ToolAdapter(getContext(), this, showing, ToolsType.SHOWING);
         rv_tools_show.setAdapter(adapter_show);
         rv_tools_show.setLayoutManager(new GridLayoutManager(getContext(), 3));
         layout.addView(show);
 
-        View hide = LayoutInflater.from(getContext()).inflate(R.layout.tool_fragment, null);
+        View hide = LayoutInflater.from(getContext()).inflate(R.layout.fragment_tool, null);
         ((TextView) hide.findViewById(R.id.tv_title)).setText(R.string.hidden_tools);
-        rv_tools_hide = hide.findViewById(R.id.rv_tools);
+        rv_tools_hide = hide.findViewById(R.id.rv);
         adapter_hide = new ToolAdapter(getContext(), this, hiding, ToolsType.HIDING);
         rv_tools_hide.setAdapter(adapter_hide);
         rv_tools_hide.setLayoutManager(new GridLayoutManager(getContext(), 3));

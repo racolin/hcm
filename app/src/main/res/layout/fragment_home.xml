@@ -1,44 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_body"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <RelativeLayout
+        android:id="@+id/layout_welcome"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:fontFamily="@font/inter_semibold"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_welcome"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/welcome"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/hand"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            app:cardCornerRadius="25dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/avatar" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp2_slider"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_alignParentTop="true" />
+            android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/ibt_filter"
-            android:layout_below="@id/vp2_slider"
-            android:scaleType="fitXY"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="24dp"
-            android:src="@drawable/filter"
-            android:background="@null"
-            android:layout_alignParentEnd="true"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            app:tint="@color/light_text"/>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp2_slider"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_alignParentTop="true" />
 
-        <FrameLayout
-            android:id="@+id/fg_tools"
-            android:layout_below="@id/vp2_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/ibt_filter"
+                android:layout_below="@id/vp2_slider"
+                android:scaleType="fitXY"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="24dp"
+                android:src="@drawable/filter"
+                android:background="@null"
+                android:layout_alignParentEnd="true"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:tint="@color/light_text"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_notices"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/fg_tools" />
-    </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+            <FrameLayout
+                android:id="@+id/fg_tools"
+                android:layout_below="@id/vp2_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_notices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/fg_tools" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -58,7 +58,7 @@ public class MoreToolsDialog extends Dialog {
     }
 
     private void initUI() {
-        RecyclerView rv_tools = findViewById(R.id.rv_tools);
+        RecyclerView rv_tools = findViewById(R.id.rv);
         rv_tools.setAdapter(new ToolAdapter(getContext(), tools, ToolsType.ALL));
         rv_tools.setLayoutManager(new GridLayoutManager(getContext(), 3));
     }

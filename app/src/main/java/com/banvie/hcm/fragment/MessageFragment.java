@@ -1,4 +1,4 @@
-package com.banvie.hcm;
+package com.banvie.hcm.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class SettingFragment extends Fragment {
-    public SettingFragment() {
+public class MessageFragment extends Fragment {
+    public MessageFragment() {
 
     }
 

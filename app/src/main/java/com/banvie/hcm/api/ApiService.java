@@ -1,13 +1,16 @@
 package com.banvie.hcm.api;
 
 import com.banvie.hcm.config.Environment;
+import com.banvie.hcm.model.RefreshToken;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOut;
-import com.banvie.hcm.model.notification.NotificationFull;
+import com.banvie.hcm.model.notification.NotificationContainer;
 import com.banvie.hcm.param.NotificationParam;
 import com.banvie.hcm.param.UserParam;
-import com.banvie.hcm.model.policy.Policy;
+import com.banvie.hcm.model.policy.PolicyContainer;
 import com.squareup.moshi.Moshi;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -17,6 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -26,6 +30,7 @@ public interface ApiService {
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .addInterceptor(new CustomInterceptor()) // This is used to add ApplicationInterceptor.
 //            .addNetworkInterceptor(new CustomInterceptor())
+            .authenticator(new CustomAuthenticator())
             .build();
 
     ApiService apiService = new Retrofit.Builder()
@@ -39,14 +44,20 @@ public interface ApiService {
     Call<Token> login(@Body UserParam param);
 
     @GET("mytimeapp/v1.0/policies")
-    Call<Policy> getPolicy();
+    Call<PolicyContainer> getPolicy();
 
     @GET(Environment.PRODUCTION + "fileapp/store/file/get")
     Call<ResponseBody> getImage(@Query("subPath") String subPath);
 
     @POST("scheduleapp/v1.0/notification-mobile/list")
-    Call<NotificationFull> getNotifications(@Body NotificationParam param);
+    Call<NotificationContainer> getNotifications(@Body NotificationParam param);
 
     @GET("mytimeapp/v1.0/status-check-in-out")
     Call<CheckOut> checkOut();
+
+    @POST("accountapp/v1.0/auth/refresh")
+    Call<Token> refreshToken(@Body RefreshToken refreshToken);
+
+    @PUT("scheduleapp/v1.0/notification-mobile")
+    Call<Void> readNotification(@Body List<String> notificationIds);
 }

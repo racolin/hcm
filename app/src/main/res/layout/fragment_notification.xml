@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:id="@+id/tv_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/notifications"
+            android:textSize="28sp" />
+
+        <ImageButton
+            android:id="@+id/ibt_setting_notify"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="18dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_setting"
+            app:tint="@color/blue" />
+
+        <ImageButton
+            android:id="@+id/ibt_ignore_notify"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/ibt_setting_notify"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_notification"
+            app:tint="@color/blue" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:paddingHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_all"
+            android:text="@string/all_notify"
+            android:textSize="16sp"
+            android:layout_width="96dp"
+            android:layout_height="42dp"
+            android:fontFamily="@font/inter_light"
+            android:background="@drawable/notify_type"/>
+
+        <Button
+            android:id="@+id/btn_unread"
+            android:layout_marginStart="16dp"
+            android:text="@string/unread_notify"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_light"
+            android:layout_width="96dp"
+            android:layout_height="42dp"
+            android:background="@drawable/notify_type"
+            app:backgroundTint="@color/background_notify"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp2_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

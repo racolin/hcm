@@ -8,73 +8,12 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <RelativeLayout
-        android:layout_marginTop="24dp"
-        android:id="@+id/layout_welcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
-
-        <TextView
-            android:id="@+id/tv_welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/inter_semibold"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_welcome"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
-                android:text="@string/welcome"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Topi"
-                android:textColor="@color/blue"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/hand"
-                android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/iv_avatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/avatar" />
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
-
     <FrameLayout
         android:id="@+id/fg_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/nv_bottom"
-        android:layout_below="@id/layout_welcome" />
+        android:layout_alignParentTop="true"/>
 
     <RelativeLayout
         android:translationZ="90dp"

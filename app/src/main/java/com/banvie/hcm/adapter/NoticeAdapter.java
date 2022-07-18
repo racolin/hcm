@@ -1,6 +1,7 @@
 package com.banvie.hcm.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,37 +12,36 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.banvie.hcm.NoticeActivity;
 import com.banvie.hcm.R;
-import com.banvie.hcm.api.RetrofitApi;
-import com.banvie.hcm.model.policy.Notice;
+import com.banvie.hcm.model.policy.Policy;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHolder> {
 
-    List<Notice> notices;
+    List<Policy> policies;
     Context context;
     Disposable disposable;
 
-    public NoticeAdapter(Context context, List<Notice> notices) {
+    public NoticeAdapter(Context context, List<Policy> policies) {
         this.context = context;
-        this.notices = notices;
+        this.policies = policies;
     }
 
-    public void update(List<Notice> notices) {
-        this.notices = notices;
+    public void update(List<Policy> policies) {
+        this.policies = policies;
         notifyDataSetChanged();
     }
 
-    public List<Notice> getNotices() {
-        return notices;
+    public List<Policy> getNotices() {
+        return policies;
     }
 
-    public void setNotices(List<Notice> notices) {
-        this.notices = notices;
+    public void setNotices(List<Policy> policies) {
+        this.policies = policies;
     }
 
     @NonNull
@@ -52,17 +52,26 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHold
 
     @Override
     public void onBindViewHolder(@NonNull NoticeHolder holder, int position) {
-        holder.tv_title.setText(notices.get(position).getTopic());
-        holder.tv_time.setText(notices.get(position).getTimeString("MMM dd, yyyy HH:mm"));
-        byte[] image = notices.get(position).getImage();
+        holder.tv_title.setText(policies.get(position).getTopic());
+        holder.tv_time.setText(policies.get(position).getTimeString("MMM dd, yyyy HH:mm"));
+        byte[] image = policies.get(position).getImage();
         if (image != null) {
             holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
         }
+        final int i = position;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, NoticeActivity.class);
+                intent.putExtra("notice", policies.get(i));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return notices.size();
+        return policies.size();
     }
 
     public class NoticeHolder extends RecyclerView.ViewHolder {

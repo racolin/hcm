@@ -1,8 +1,9 @@
 package com.banvie.hcm.api;
 
+import android.util.Log;
+
 import java.io.IOException;
 
-import okhttp3.CacheControl;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -15,14 +16,17 @@ public class CustomInterceptor implements Interceptor {
         Request originalRequest = chain.request();
 
         Headers headers = new Headers.Builder()
-                .add("Authorization", Header.TOKEN_TYPE + " " + Header.ACCESS_TOKEN)
+                .add("Authorization", Constant.TOKEN_TYPE + " " + Constant.ACCESS_TOKEN)
                 .build();
+
 
         Request newRequest = originalRequest.newBuilder()
                 .headers(headers)
                 .build();
 
+
         Response response = chain.proceed(newRequest);
+
         return response;
     }
 }

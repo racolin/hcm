@@ -18,10 +18,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.banvie.hcm.api.Header;
+import com.banvie.hcm.api.Constant;
 import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.listener.OnLoginListener;
 import com.banvie.hcm.param.UserParam;
+
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements OnLoginListener {
 
@@ -37,14 +39,21 @@ public class LoginActivity extends AppCompatActivity implements OnLoginListener 
 
         SharedPreferences preferences = getSharedPreferences("token", MODE_PRIVATE);
 
-        Log.d("rrrtoken", preferences.getString("access_token", ""));
-
         if (preferences != null) {
-            Header.ACCESS_TOKEN = preferences.getString("access_token", "");
-            Header.TOKEN_TYPE = preferences.getString("token_type", "");
+            long expired = preferences.getLong("expired", -1);
+//            Dang nhap xong de vay cho den expire thi lam sao
+            if (expired != -1) {
+                if (expired < (new Date()).getTime()) {
+                    Constant.ACCESS_TOKEN = preferences.getString("access_token", "");
+                    Constant.TOKEN_TYPE = preferences.getString("token_type", "");
+                    Constant.REFRESH_TOKEN = preferences.getString("refresh_token", "");
+                }
+            } else {
+
+            }
         }
 
-        if (!Header.ACCESS_TOKEN.equals("")) {
+        if (!Constant.ACCESS_TOKEN.equals("")) {
             toHomeActivity();
         }
         super.onCreate(savedInstanceState);
@@ -53,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoginListener 
 
         preferences = getSharedPreferences("login", MODE_PRIVATE);
         if (preferences != null) {
+            cbx_remember.setChecked(preferences.getBoolean("remember", false));
             edt_username.setText(preferences.getString("username", getString(R.string.username_hint)));
             edt_password.setText(preferences.getString("password", ""));
         }
@@ -122,14 +132,13 @@ public class LoginActivity extends AppCompatActivity implements OnLoginListener 
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
                 if (b) {
-                    edt_username.setText(preferences.getString("username", getString(R.string.username_hint)));
-                    edt_password.setText(preferences.getString("password", ""));
                     preferences.edit()
+                            .putBoolean("remember", true)
                             .putString("username", edt_username.getText().toString())
                             .putString("password", edt_password.getText().toString())
                             .commit();
                 } else {
-                    preferences.edit().remove("username").remove("password").commit();
+                    deleteSharedPreferences("login");
                 }
             }
         });
@@ -143,6 +152,12 @@ public class LoginActivity extends AppCompatActivity implements OnLoginListener 
     }
 
     private void toHomeActivity() {
+        getSharedPreferences("token", MODE_PRIVATE).edit()
+                .putString("access_token", Constant.ACCESS_TOKEN)
+                .putString("refresh_token", Constant.REFRESH_TOKEN)
+                .putString("token_type", Constant.TOKEN_TYPE)
+                .putLong("expired", (new Date()).getTime() + Constant.EXPIRE_IN)
+                .commit();
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
@@ -150,11 +165,6 @@ public class LoginActivity extends AppCompatActivity implements OnLoginListener 
     @Override
     public void setOnLoginListener(boolean success) {
         if (success) {
-            getSharedPreferences("token", MODE_PRIVATE).edit()
-                    .putString("access_token", Header.ACCESS_TOKEN)
-                    .putString("refresh_token", Header.REFRESH_TOKEN)
-                    .putString("token_type", Header.TOKEN_TYPE)
-                    .commit();
                 toHomeActivity();
         } else {
             tv_check.setVisibility(View.VISIBLE);

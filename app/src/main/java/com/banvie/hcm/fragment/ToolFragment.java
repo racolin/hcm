@@ -1,8 +1,6 @@
 package com.banvie.hcm.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import com.banvie.hcm.type.ToolsType;
 import com.banvie.hcm.adapter.ToolAdapter;
 import com.banvie.hcm.model.Tool;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class ToolFragment extends Fragment {
@@ -42,9 +39,9 @@ public class ToolFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.tool_fragment, container, false);
+        View view  = inflater.inflate(R.layout.fragment_tool, container, false);
         ((TextView) view.findViewById(R.id.tv_title)).setText(title);
-        rv_tools = view.findViewById(R.id.rv_tools);
+        rv_tools = view.findViewById(R.id.rv);
         rv_tools.setAdapter(new ToolAdapter(getContext(), tools, ToolsType.HIGH_LIGHT));
         rv_tools.setLayoutManager(new GridLayoutManager(getContext(), columns));
         return view;

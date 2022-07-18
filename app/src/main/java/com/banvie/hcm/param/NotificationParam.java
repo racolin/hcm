@@ -1,7 +1,5 @@
 package com.banvie.hcm.param;
 
-import com.banvie.hcm.model.policy.Notice;
-
 public class NotificationParam {
     private String userId;
     private int requestType;

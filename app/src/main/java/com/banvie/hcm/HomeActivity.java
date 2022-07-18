@@ -7,37 +7,62 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.banvie.hcm.api.Constant;
+import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.dialog.CheckOutDialog;
 import com.banvie.hcm.fragment.HomeFragment;
+import com.banvie.hcm.fragment.MessageFragment;
+import com.banvie.hcm.fragment.NotificationFragment;
+import com.banvie.hcm.fragment.SettingFragment;
+import com.banvie.hcm.listener.OnLoadNotificationsListener;
+import com.banvie.hcm.model.UserInformation;
+import com.banvie.hcm.model.notification.Notification;
+import com.banvie.hcm.model.notification.NotificationContainer;
+import com.banvie.hcm.param.NotificationParam;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.squareup.moshi.Moshi;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnLoadNotificationsListener {
 
     ImageButton ibt_checkout;
     BottomNavigationView nv_bottom;
+    List<Notification> notifications;
+    NotificationFragment notificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        Moshi moshi = new Moshi.Builder().build();
+        try {
+            Constant.userInformation = moshi.adapter(UserInformation.class).fromJson(new String(decoder.decode(Constant.ACCESS_TOKEN.split("\\.")[1])));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         initUI();
         initListener();
     }
 
     private void initUI() {
+        notifications = new ArrayList<>();
+        notificationFragment = new NotificationFragment(notifications, HomeActivity.this);
+
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -47,17 +72,10 @@ public class HomeActivity extends AppCompatActivity {
         manager.beginTransaction().add(R.id.fg_body, new HomeFragment()).commit();
 
         nv_bottom.getOrCreateBadge(R.id.nv_notification).setBackgroundColor(getColor(R.color.red));
-        nv_bottom.getOrCreateBadge(R.id.nv_notification).setNumber(5);
 
-        LocalDateTime time = LocalDateTime.now();
-        int hour = time.getHour();
-        int welcome = R.string.evening;
-        if (hour < 12) {
-            welcome = R.string.morning;
-        } else if (hour < 18) {
-            welcome = R.string.afternoon;
-        }
-        ((TextView) findViewById(R.id.tv_welcome)).setText(welcome);
+        RetrofitApi.getNotifications(
+                new NotificationParam(Constant.userInformation.getUserId(),
+                        0, null, 0, 15), this);
     }
 
     private void initListener() {
@@ -86,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                         showCheckOutDialog();
                         break;
                     case R.id.nv_notification:
-                        transaction.replace(R.id.fg_body, new NotificationFragment());
+                        transaction.replace(R.id.fg_body, notificationFragment);
                         break;
                     case R.id.nv_setting:
                         transaction.replace(R.id.fg_body, new SettingFragment());
@@ -116,5 +134,22 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    public void setOnNotificationsNumberListener(int i) {
+        nv_bottom.getOrCreateBadge(R.id.nv_notification).setNumber(i);
+    }
+
+    @Override
+    public void setOnLoadImageListener(byte[] image, int i) {
+        notifications.get(i).setImage_bytes(image);
+        notificationFragment.updateNotification(i);
+    }
+
+    @Override
+    public void setOnLoadNotificationsListener(NotificationContainer container) {
+        this.notifications.addAll(container.getData().getData().getItems());
+        setOnNotificationsNumberListener(container.getUnReadCount());
+//        notificationFragment.updateNotification(-1);
     }
 }

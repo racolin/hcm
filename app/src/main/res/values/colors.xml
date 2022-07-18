@@ -20,4 +20,6 @@
     <color name="blue_dark">#1B75BC</color>
 
     <color name="background_edittext">#F7F7F7</color>
+    <color name="background_notify">#E6DFDF</color>
+    <color name="blue_light">#F0F8FF</color>
 </resources>

@@ -1,5 +1,8 @@
 package com.banvie.hcm.model.notification;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Notification {
     private String title;
     private String shortContent;
@@ -9,25 +12,17 @@ public class Notification {
     private int type;
     private String fullName;
     private String image;
+    private byte[] image_bytes;
     private String senderId;
-    private String notifySetting;
+//    private String notifySetting;
     private boolean read;
 
-    public Notification(String title, String shortContent, long sendDate,
-                        String notificationId, String targetId, int type,
-                        String fullName, String image, String senderId,
-                        String notifySetting, boolean read) {
-        this.title = title;
-        this.shortContent = shortContent;
-        this.sendDate = sendDate;
-        this.notificationId = notificationId;
-        this.targetId = targetId;
-        this.type = type;
-        this.fullName = fullName;
-        this.image = image;
-        this.senderId = senderId;
-        this.notifySetting = notifySetting;
-        this.read = read;
+    public byte[] getImage_bytes() {
+        return image_bytes;
+    }
+
+    public void setImage_bytes(byte[] image_bytes) {
+        this.image_bytes = image_bytes;
     }
 
     public String getTitle() {
@@ -102,13 +97,13 @@ public class Notification {
         this.senderId = senderId;
     }
 
-    public String getNotifySetting() {
-        return notifySetting;
-    }
+//    public String getNotifySetting() {
+//        return notifySetting;
+//    }
 
-    public void setNotifySetting(String notifySetting) {
-        this.notifySetting = notifySetting;
-    }
+//    public void setNotifySetting(String notifySetting) {
+//        this.notifySetting = notifySetting;
+//    }
 
     public boolean isRead() {
         return read;
@@ -116,5 +111,37 @@ public class Notification {
 
     public void setRead(boolean read) {
         this.read = read;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notification that = (Notification) o;
+        return Objects.equals(notificationId, that.notificationId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(notificationId, type, read);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "title='" + title + '\'' +
+                ", shortContent='" + shortContent + '\'' +
+                ", sendDate=" + sendDate +
+                ", notificationId='" + notificationId + '\'' +
+                ", targetId='" + targetId + '\'' +
+                ", type=" + type +
+                ", fullName='" + fullName + '\'' +
+                ", image='" + image + '\'' +
+                ", image_bytes=" + Arrays.toString(image_bytes) +
+                ", senderId='" + senderId + '\'' +
+//                ", notifySetting='" + notifySetting + '\'' +
+                ", read=" + read +
+                '}';
     }
 }

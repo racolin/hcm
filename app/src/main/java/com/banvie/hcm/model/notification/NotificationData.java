@@ -1,9 +1,10 @@
-package com.banvie.hcm.model.policy;
+package com.banvie.hcm.model.notification;
+
 
 import java.util.List;
 
-public class DataPolicy {
-    private List<Policy> items;
+public class NotificationData {
+    private List<Notification> items;
     private int page;
     private int size;
     private int totalItems;
@@ -12,13 +13,15 @@ public class DataPolicy {
     private boolean hasNext;
     private boolean hasPrevious;
 
-    public DataPolicy() {}
+    public NotificationData() {
 
-    public List<Policy> getItems() {
+    }
+
+    public List<Notification> getItems() {
         return items;
     }
 
-    public void setItems(List<Policy> items) {
+    public void setItems(List<Notification> items) {
         this.items = items;
     }
 
@@ -76,5 +79,19 @@ public class DataPolicy {
 
     public void setHasPrevious(boolean hasPrevious) {
         this.hasPrevious = hasPrevious;
+    }
+
+    @Override
+    public String toString() {
+        return "Data2{" +
+                "items=" + items +
+                ", page=" + page +
+                ", size=" + size +
+                ", totalItems=" + totalItems +
+                ", totalPages=" + totalPages +
+                ", totalElements=" + totalElements +
+                ", hasNext=" + hasNext +
+                ", hasPrevious=" + hasPrevious +
+                '}';
     }
 }
