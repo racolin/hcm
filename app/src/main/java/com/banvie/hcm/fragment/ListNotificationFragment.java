@@ -1,6 +1,8 @@
 package com.banvie.hcm.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +25,17 @@ public class ListNotificationFragment extends Fragment {
     RecyclerView rv;
     NotificationAdapter adapter;
     List<Notification> notifications;
+    boolean show;
 
     public ListNotificationFragment() {
         notifications = new ArrayList<>();
+        adapter = new NotificationAdapter(getContext(), notifications);
     }
 
-    public ListNotificationFragment(List<Notification> notifications) {
+    public ListNotificationFragment(Context context, List<Notification> notifications, boolean show) {
         this.notifications = notifications;
+        adapter = new NotificationAdapter(context, notifications);
+        this.show = show;
     }
 
     public void updateNotification(int i) {
@@ -43,8 +49,10 @@ public class ListNotificationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler_view, container, false);
-        adapter = new NotificationAdapter(getContext(), notifications);
+        View view = inflater.inflate(R.layout.fragment_list_notifications, container, false);
+        if (!show) {
+            view.findViewById(R.id.btn_request).setVisibility(View.GONE);
+        }
         rv = view.findViewById(R.id.rv);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

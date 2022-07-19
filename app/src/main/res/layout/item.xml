@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swt_title"
+        android:textSize="16sp"
+        app:thumbTint="@color/white"
+        app:track="@drawable/switch_track"
+        android:thumb="@drawable/switch_thumb"
+        android:checked="false"
+        android:textColor="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swt_sound"
+        android:textSize="16sp"
+        app:thumbTint="@color/white"
+        app:track="@drawable/switch_track"
+        android:thumb="@drawable/switch_thumb"
+        android:text="@string/sound_on"
+        android:textStyle="italic"
+        android:checked="false"
+        android:textColor="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

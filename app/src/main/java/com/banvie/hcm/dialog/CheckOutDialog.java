@@ -23,7 +23,6 @@ import retrofit2.Response;
 
 public class CheckOutDialog extends Dialog {
 
-    TextView tv_time;
     Button btn_no, btn_yes;
 
     public CheckOutDialog(@NonNull Context context) {
@@ -33,7 +32,7 @@ public class CheckOutDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_checkout);
+        setContentView(R.layout.dialog_yes_no);
 
         initUI();
         initListener();
@@ -42,8 +41,9 @@ public class CheckOutDialog extends Dialog {
     private void initUI() {
         btn_no = findViewById(R.id.btn_no);
         btn_yes = findViewById(R.id.btn_yes);
-        tv_time = findViewById(R.id.tv_time);
-        tv_time.setText(Support.convertDateToString(new Date(), "HH'h'mm\''"));
+        String s = getContext().getString(R.string.checkout) + " " + Support.convertDateToString(new Date(), "HH'h'mm\''");
+        ((TextView) findViewById(R.id.tv_content)).setText(s);
+        ((TextView) findViewById(R.id.tv_title)).setText(R.string.checkout);
     }
 
     private void initListener() {

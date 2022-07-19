@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:layout_above="@id/layout_mark"
+        android:layout_marginVertical="12dp"
+        android:layout_marginHorizontal="4dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/layout_mark"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_mark"
+            android:layout_marginHorizontal="8dp"
+            android:layout_width="0dp"
+            android:text="@string/mark_all"
+            android:fontFamily="@font/inter_light"
+            app:backgroundTint="@color/blue_light"
+            android:textColor="@color/dark"
+            android:background="@drawable/round_15"
+            android:layout_height="40dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_request"
+            android:layout_marginHorizontal="8dp"
+            android:layout_width="0dp"
+            android:text="@string/request_manager"
+            android:fontFamily="@font/inter_light"
+            android:textColor="@color/dark"
+            app:backgroundTint="@color/blue_light"
+            android:background="@drawable/round_15"
+            android:layout_height="40dp"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+</RelativeLayout>

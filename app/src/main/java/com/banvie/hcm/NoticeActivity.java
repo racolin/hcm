@@ -26,21 +26,26 @@ public class NoticeActivity extends AppCompatActivity {
         initUI();
     }
 
-    private void initUI() {
+    private void setupToolbar() {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        Policy policy = (Policy) getIntent().getSerializableExtra("notice");
-
         Toolbar toolbar = findViewById(R.id.tb);
+
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText("Policy");
 
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText("Policy");
+    private void initUI() {
+
+        Policy policy = (Policy) getIntent().getSerializableExtra("notice");
+
+        setupToolbar();
 
         ((TextView) findViewById(R.id.tv_content))
                 .setText(HtmlCompat.fromHtml(policy.getLongDescription(), HtmlCompat.FROM_HTML_MODE_COMPACT));

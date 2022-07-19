@@ -11,7 +11,9 @@ import com.banvie.hcm.config.Environment;
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Support {
@@ -63,5 +65,25 @@ public class Support {
             diff /= 12;
             return diff == 1 ? "A year" : (diff + " years") + " ago";
         }
+    }
+
+    private static String convertUpper(String str) {
+        String s = str.toLowerCase();
+
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+
+    public static String convertAllUpper(String str) {
+        String[] ss = str.split("_");
+        List<String> r = new ArrayList<>();
+        for (String s : ss) {
+            r.add(convertUpper(s));
+        }
+        return String.join(" ", r);
+    }
+
+    public static String convertFirstUpper(String str) {
+        String[] ss = convertUpper(str).split("_");
+        return String.join(" ", ss);
     }
 }

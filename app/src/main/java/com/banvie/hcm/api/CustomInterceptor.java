@@ -3,6 +3,7 @@ package com.banvie.hcm.api;
 import android.util.Log;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -19,11 +20,9 @@ public class CustomInterceptor implements Interceptor {
                 .add("Authorization", Constant.TOKEN_TYPE + " " + Constant.ACCESS_TOKEN)
                 .build();
 
-
         Request newRequest = originalRequest.newBuilder()
                 .headers(headers)
                 .build();
-
 
         Response response = chain.proceed(newRequest);
 

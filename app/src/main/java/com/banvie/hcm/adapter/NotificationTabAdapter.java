@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.banvie.hcm.fragment.ListNotificationFragment;
+import com.banvie.hcm.listener.OnLoadNotificationsNumberListener;
 import com.banvie.hcm.model.notification.Notification;
 
 import java.util.ArrayList;
@@ -12,18 +13,20 @@ import java.util.List;
 
 public class NotificationTabAdapter extends FragmentStateAdapter {
 
-    List<Notification> notifications, unreadNotifications;
-    ListNotificationFragment all, unread;
+    List<Notification> notifications, requestNotifications;
+    ListNotificationFragment all, request;
+    OnLoadNotificationsNumberListener listener;
 
-    public NotificationTabAdapter(@NonNull Fragment fragment, List<Notification> notifications) {
+    public NotificationTabAdapter(@NonNull Fragment fragment, OnLoadNotificationsNumberListener listener, List<Notification> notifications) {
         super(fragment);
         this.notifications = notifications;
-        unreadNotifications = getUnreadNotifications();
-        all = new ListNotificationFragment(notifications);
-        unread = new ListNotificationFragment(unreadNotifications);
+        requestNotifications = getRequestNotifications();
+        all = new ListNotificationFragment(fragment.getContext(), notifications, false);
+        request = new ListNotificationFragment(fragment.getContext(), requestNotifications, true);
+        this.listener = listener;
     }
 
-    private List<Notification> getUnreadNotifications() {
+    private List<Notification> getRequestNotifications() {
         List<Notification> notifications = new ArrayList<>();
         for (Notification notification : notifications) {
             if (!notification.isRead()) {
@@ -33,19 +36,14 @@ public class NotificationTabAdapter extends FragmentStateAdapter {
         return notifications;
     }
 
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-        notifyDataSetChanged();
-    }
-
     public void updateNotification(int i) {
         all.updateNotification(i);
         if (i == -1) {
-            unread.updateNotification(i);
+            request.updateNotification(i);
         } else {
-            int j = unreadNotifications.indexOf(notifications.get(i));
+            int j = requestNotifications.indexOf(notifications.get(i));
             if (j != -1) {
-                unread.updateNotification(j);
+                request.updateNotification(j);
             }
         }
     }
@@ -61,7 +59,7 @@ public class NotificationTabAdapter extends FragmentStateAdapter {
             case 0:
                 return all;
             case 1:
-                return unread;
+                return request;
         }
         return null;
     }

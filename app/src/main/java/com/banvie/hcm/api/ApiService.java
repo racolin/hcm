@@ -4,7 +4,15 @@ import com.banvie.hcm.config.Environment;
 import com.banvie.hcm.model.RefreshToken;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOut;
+import com.banvie.hcm.model.education.EducationContainer;
+import com.banvie.hcm.model.employee_duration.EmployeeDuration;
+import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
+import com.banvie.hcm.model.individual.IndividualContainer;
 import com.banvie.hcm.model.notification.NotificationContainer;
+import com.banvie.hcm.model.notification_sound.NotifySoundContainer;
+import com.banvie.hcm.model.shui.ShuiContainer;
+import com.banvie.hcm.model.summary.Summary;
+import com.banvie.hcm.model.summary.SummaryContainer;
 import com.banvie.hcm.param.NotificationParam;
 import com.banvie.hcm.param.UserParam;
 import com.banvie.hcm.model.policy.PolicyContainer;
@@ -21,6 +29,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -60,4 +69,22 @@ public interface ApiService {
 
     @PUT("scheduleapp/v1.0/notification-mobile")
     Call<Void> readNotification(@Body List<String> notificationIds);
+
+    @GET("accountapp/v1.0/employees/{userId}")
+    Call<SummaryContainer> getUserSummary(@Path("userId") String userId);
+
+    @GET("accountapp/v1.0/info/employees/duration/{userId}")
+    Call<EmployeeDurationContainer> getEmployeeDuration(@Path("userId") String userId);
+
+    @GET("accountapp/v1.0/info/employees/education/{userId}")
+    Call<EducationContainer> getEducation(@Path("userId") String userId);
+
+    @GET("accountapp/v1.0/info/employees/duration/{userId}")
+    Call<ShuiContainer> getShui(@Path("userId") String userId);
+
+    @GET("accountapp/v1.0/info/employees/individual/{userId}")
+    Call<IndividualContainer> getIndividual(@Path("userId") String userId);
+
+    @GET("scheduleapp/v1.0/notify/list-setting")
+    Call<List<NotifySoundContainer>> getNotifySound();
 }

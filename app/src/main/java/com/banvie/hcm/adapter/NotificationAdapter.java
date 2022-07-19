@@ -1,6 +1,8 @@
 package com.banvie.hcm.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
         holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).getSendDate()));
         holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).getShortContent(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+        byte[] img = notifications.get(position).getImage_bytes();
+        if (img != null) {
+            holder.iv_notification.setImageBitmap(BitmapFactory.decodeByteArray(img, 0, img.length));
+        }
         holder.ibt_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +61,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             }
         });
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override

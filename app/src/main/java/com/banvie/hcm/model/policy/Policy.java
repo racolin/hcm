@@ -1,5 +1,7 @@
 package com.banvie.hcm.model.policy;
 
+import com.banvie.hcm.model.summary.ReportTo;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +14,6 @@ public class Policy implements Serializable {
     String longDescription;
 
     public Policy() {
-
     }
 
     public Policy(String topic, long createdDate, String thumbnail, String longDescription) {

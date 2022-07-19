@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.banvie.hcm.api.Constant;
@@ -22,11 +23,13 @@ import com.banvie.hcm.fragment.MessageFragment;
 import com.banvie.hcm.fragment.NotificationFragment;
 import com.banvie.hcm.fragment.SettingFragment;
 import com.banvie.hcm.listener.OnLoadNotificationsListener;
+import com.banvie.hcm.listener.OnLoadNotificationsNumberListener;
 import com.banvie.hcm.model.UserInformation;
 import com.banvie.hcm.model.notification.Notification;
 import com.banvie.hcm.model.notification.NotificationContainer;
 import com.banvie.hcm.param.NotificationParam;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationBarView;
 import com.squareup.moshi.Moshi;
 
@@ -35,12 +38,14 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements OnLoadNotificationsListener {
+public class HomeActivity extends AppCompatActivity implements OnLoadNotificationsNumberListener {
 
     ImageButton ibt_checkout;
     BottomNavigationView nv_bottom;
     List<Notification> notifications;
     NotificationFragment notificationFragment;
+//    BottomSheetBehavior sheetBehavior;
+//    LinearLayout option_bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,22 @@ public class HomeActivity extends AppCompatActivity implements OnLoadNotificatio
 
         nv_bottom.getOrCreateBadge(R.id.nv_notification).setBackgroundColor(getColor(R.color.red));
 
+//        option_bottom = findViewById(R.id.option_bottom);
+//
+//        sheetBehavior = BottomSheetBehavior.from(option_bottom);
+//
+//        sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//
+//            }
+//        });
+//
         RetrofitApi.getNotifications(
                 new NotificationParam(Constant.userInformation.getUserId(),
                         0, null, 0, 15), this);
@@ -136,20 +157,8 @@ public class HomeActivity extends AppCompatActivity implements OnLoadNotificatio
         super.onBackPressed();
     }
 
+    @Override
     public void setOnNotificationsNumberListener(int i) {
         nv_bottom.getOrCreateBadge(R.id.nv_notification).setNumber(i);
-    }
-
-    @Override
-    public void setOnLoadImageListener(byte[] image, int i) {
-        notifications.get(i).setImage_bytes(image);
-        notificationFragment.updateNotification(i);
-    }
-
-    @Override
-    public void setOnLoadNotificationsListener(NotificationContainer container) {
-        this.notifications.addAll(container.getData().getData().getItems());
-        setOnNotificationsNumberListener(container.getUnReadCount());
-//        notificationFragment.updateNotification(-1);
     }
 }
