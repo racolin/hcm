@@ -50,9 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/top_corner"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/navigation_home" />
     </RelativeLayout>
 
-<!--    <include layout="@layout/option_notification"/>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

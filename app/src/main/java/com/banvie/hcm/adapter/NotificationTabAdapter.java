@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.banvie.hcm.fragment.ListNotificationFragment;
+import com.banvie.hcm.listener.OnLoadNotificationsListener;
 import com.banvie.hcm.listener.OnLoadNotificationsNumberListener;
 import com.banvie.hcm.model.notification.Notification;
 
@@ -17,29 +18,43 @@ public class NotificationTabAdapter extends FragmentStateAdapter {
     ListNotificationFragment all, request;
     OnLoadNotificationsNumberListener listener;
 
-    public NotificationTabAdapter(@NonNull Fragment fragment, OnLoadNotificationsNumberListener listener, List<Notification> notifications) {
+    public NotificationTabAdapter(@NonNull Fragment fragment, OnLoadNotificationsListener loadListener, OnLoadNotificationsNumberListener listener, List<Notification> notifications) {
         super(fragment);
         this.notifications = notifications;
         requestNotifications = getRequestNotifications();
-        all = new ListNotificationFragment(fragment.getContext(), notifications, false);
-        request = new ListNotificationFragment(fragment.getContext(), requestNotifications, true);
+        all = new ListNotificationFragment(fragment.getContext(), loadListener, notifications, false);
+        request = new ListNotificationFragment(fragment.getContext(), loadListener, requestNotifications, true);
         this.listener = listener;
     }
 
-    private List<Notification> getRequestNotifications() {
-        List<Notification> notifications = new ArrayList<>();
-        for (Notification notification : notifications) {
-            if (!notification.isRead()) {
-                notifications.add(notification);
+    public void setNotifications(List<Notification> ns) {
+        notifications = ns;
+//        notifications.clear();
+//        notifications.addAll(ns);
+        requestNotifications = getRequestNotifications();
+        all.setNotifications(notifications);
+        request.setNotifications(requestNotifications);
+    }
+
+    public void removeNotification(int i) {
+        all.removeNotification(i);
+        if (i == -1) {
+            request.setNotifications(new ArrayList<>());
+        } else {
+            int j = requestNotifications.indexOf(notifications.get(i));
+            if (j != -1) {
+                request.removeNotification(j);
             }
         }
-        return notifications;
     }
 
     public void updateNotification(int i) {
         all.updateNotification(i);
         if (i == -1) {
-            request.updateNotification(i);
+//            requestNotifications.clear();
+//            requestNotifications.addAll(getRequestNotifications());
+//            request.updateNotification(i);
+            request.setNotifications(getRequestNotifications());
         } else {
             int j = requestNotifications.indexOf(notifications.get(i));
             if (j != -1) {
@@ -48,8 +63,19 @@ public class NotificationTabAdapter extends FragmentStateAdapter {
         }
     }
 
-    public void setImageNotification(byte[] image, int i) {
-        notifications.get(i).setImage_bytes(image);
+    private List<Notification> getRequestNotifications() {
+        List<Notification> notifications = new ArrayList<>();
+        for (Notification notification : this.notifications) {
+            if (notification.type == 6 || notification.type == 8) {
+                notifications.add(notification);
+            }
+        }
+        return notifications;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @NonNull

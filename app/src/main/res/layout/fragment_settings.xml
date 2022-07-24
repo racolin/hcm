@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true"
         android:fontFamily="@font/inter_semibold"
         android:text="@string/settings"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:textSize="28sp" />
     
@@ -238,8 +238,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_text"/>
+        android:layout_height="8dp"
+        android:background="@color/light_text1"/>
     
     <RelativeLayout
         android:id="@+id/sign_out"

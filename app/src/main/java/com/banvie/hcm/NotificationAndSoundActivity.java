@@ -2,6 +2,7 @@ package com.banvie.hcm;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,8 +39,7 @@ public class NotificationAndSoundActivity extends AppCompatActivity
     }
 
     private void setupToolbar() {
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        
 
         Toolbar toolbar = findViewById(R.id.tb);
 
@@ -62,6 +62,7 @@ public class NotificationAndSoundActivity extends AppCompatActivity
         rv_ns = findViewById(R.id.rv_ns);
         rv_ns.setAdapter(adapter);
         rv_ns.setLayoutManager(new LinearLayoutManager(this));
+
 
         RetrofitApi.getNotifySound(this);
     }

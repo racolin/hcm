@@ -1,9 +1,10 @@
 package com.banvie.hcm.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,10 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.banvie.hcm.NotificationAndSoundActivity;
 import com.banvie.hcm.R;
 import com.banvie.hcm.adapter.NotificationTabAdapter;
 import com.banvie.hcm.api.Constant;
@@ -30,42 +31,64 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class NotificationFragment extends Fragment implements OnLoadNotificationsListener {
+public class NotificationFragment extends Fragment
+        implements OnLoadNotificationsListener {
 
     List<Notification> notifications, unreadNotifications;
-    OnLoadNotificationsNumberListener listener;
     NotificationTabAdapter adapter;
     Button btn_all, btn_unread;
-    ImageButton ibt_ignore_notify;
+    ImageButton ibt_ignore_notify, ibt_setting_notify;
+    ViewPager2 vp2_notifications;
+
+    OnLoadNotificationsNumberListener listener;
+
+    int page, totalPage, size, total;
+    boolean hasNext;
 
     public NotificationFragment() {
+        notifications = new ArrayList<>();
+    }
+
+    public NotificationFragment(OnLoadNotificationsNumberListener listener) {
+        this.listener = listener;
         notifications = new ArrayList<>();
         unreadNotifications = new ArrayList<>();
     }
 
-    public NotificationFragment(List<Notification> notifications, OnLoadNotificationsNumberListener listener) {
-        this.listener = listener;
-        this.notifications = notifications;
-        unreadNotifications = getUnreadNotifications();
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        hasNext = true;
+        page = 0;
+        size = 15;
+        total = 0;
+        unreadNotifications = new ArrayList<>();
+        loadNotificationListener();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_notification, container, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        initUI(view);
+        initListener();
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void initUI(View v) {
 
         TabLayout tab = v.findViewById(R.id.tab);
-
-        ViewPager2 vp2_notifications = v.findViewById(R.id.vp2_notifications);
-
-        adapter = new NotificationTabAdapter(this, listener, notifications);
-
+        vp2_notifications = v.findViewById(R.id.vp2_notifications);
+        adapter = new NotificationTabAdapter(this, this, listener, notifications);
         vp2_notifications.setAdapter(adapter);
-
-        vp2_notifications.setSaveEnabled(false);
-
         new TabLayoutMediator(tab, vp2_notifications, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -79,41 +102,32 @@ public class NotificationFragment extends Fragment implements OnLoadNotification
                 }
             }
         }).attach();
+        vp2_notifications.setSaveEnabled(false);
 
         ibt_ignore_notify = v.findViewById(R.id.ibt_ignore_notify);
+        ibt_setting_notify = v.findViewById(R.id.ibt_setting_notify);
 
         btn_all = v.findViewById(R.id.btn_all);
-
         btn_unread = v.findViewById(R.id.btn_unread);
+    }
 
+    private void initListener() {
 
         btn_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter = new NotificationTabAdapter(NotificationFragment.this, listener, notifications);
-
-                vp2_notifications.setAdapter(adapter);
-
-                btn_unread.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.background_notify)));
-                btn_unread.setTextColor(getContext().getColor(R.color.black));
-
-                btn_all.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.blue)));
-                btn_all.setTextColor(getContext().getColor(R.color.white));
+                adapter.setNotifications(notifications);
+                setAllOn();
+                setUnreadOff();
             }
         });
 
         btn_unread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter = new NotificationTabAdapter(NotificationFragment.this, listener, unreadNotifications);
-
-                vp2_notifications.setAdapter(adapter);
-
-                btn_unread.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.blue)));
-                btn_unread.setTextColor(getContext().getColor(R.color.white));
-
-                btn_all.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.background_notify)));
-                btn_all.setTextColor(getContext().getColor(R.color.black));
+                adapter.setNotifications(unreadNotifications);
+                setAllOff();
+                setUnreadOn();
             }
         });
 
@@ -125,22 +139,39 @@ public class NotificationFragment extends Fragment implements OnLoadNotification
             }
         });
 
-        RetrofitApi.getNotifications(new NotificationParam(
-                Constant.userInformation.getUserId(),
-                0, null, 0, 15), this);
-
-        return v;
+        ibt_setting_notify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), NotificationAndSoundActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void setAllOn() {
+        btn_all.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.blue)));
+        btn_all.setTextColor(getContext().getColor(R.color.white));
+    }
+
+    private void setUnreadOff() {
+        btn_unread.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.background_notify)));
+        btn_unread.setTextColor(getContext().getColor(R.color.black));
+    }
+
+    private void setUnreadOn() {
+        btn_unread.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.blue)));
+        btn_unread.setTextColor(getContext().getColor(R.color.white));
+    }
+
+    private void setAllOff() {
+        btn_all.setBackgroundTintList(ColorStateList.valueOf(getContext().getColor(R.color.background_notify)));
+        btn_all.setTextColor(getContext().getColor(R.color.black));
     }
 
     private List<Notification> getUnreadNotifications() {
         List<Notification> ns = new ArrayList<>();
         for (Notification notification : notifications) {
-            if (!notification.isRead()) {
+            if (!notification.read) {
                 ns.add(notification);
             }
         }
@@ -149,22 +180,103 @@ public class NotificationFragment extends Fragment implements OnLoadNotification
 
     @Override
     public void setOnLoadImageListener(byte[] image, int i) {
-        notifications.get(i).setImage_bytes(image);
-        adapter.updateNotification(i);
+        notifications.get(i).image_bytes = image;
+        if (adapter != null) {
+            adapter.updateNotification(i);
+        }
+    }
+
+    @Override
+    public void updateNotificationRead(List<String> ids) {
+        if (ids == null) {
+            int len = notifications.size();
+            for (int i = 0; i < len; i++) {
+                if (!notifications.get(i).read) {
+                    notifications.get(i).read = true;
+                    adapter.updateNotification(i);
+                }
+            }
+        } else {
+            for (String id : ids) {
+                Notification n = new Notification();
+                n.notificationId = id;
+                int k = notifications.indexOf(n);
+                if (k != -1) {
+                    notifications.get(k).read = true;
+                    adapter.updateNotification(k);
+                }
+            }
+        }
+
+        RetrofitApi.getNotifications(new NotificationParam(
+                Constant.userInformation.userId,
+                0, null, 0, 15), listener);
+    }
+
+    @Override
+    public void updateNotificationRemove(List<String> ids) {
+        if (ids != null) {
+            for (String id : ids) {
+                Notification n = new Notification();
+                n.notificationId = id;
+                int k = notifications.indexOf(n);
+                Log.d("rrrrrxx", "ss" +k);
+                if (k != -1) {
+                    adapter.removeNotification(k);
+                }
+            }
+        }
+
+        RetrofitApi.getNotifications(new NotificationParam(
+                Constant.userInformation.userId,
+                0, null, 0, 15),  listener);
     }
 
     @Override
     public void setOnLoadNotificationsListener(NotificationContainer container) {
-        List<Notification> ns = container.getData().getData().getItems();
-        this.notifications.clear();
+
+        page = container.data.data.page;
+        totalPage = container.data.data.totalPages;
+        size = container.data.data.size;
+        total = container.data.data.totalElements;
+        hasNext = container.data.data.hasNext;
+        List<Notification> ns = container.data.data.items;
+
+        if (page == 1) {
+            this.notifications.clear();
+            this.unreadNotifications.clear();
+        }
         this.notifications.addAll(ns);
-        this.unreadNotifications.clear();
         for (Notification n : ns) {
-            if (!n.isRead()) {
+            if (!n.read) {
                 unreadNotifications.add(n);
             }
         }
-        listener.setOnNotificationsNumberListener(container.getUnReadCount());
+        listener.setOnNotificationsNumberListener(container.unReadCount);
         adapter.updateNotification(-1);
+    }
+
+    @Override
+    public void setOnReadNotificationListener(Notification notification) {
+        RetrofitApi.readNotification(this, Arrays.asList(notification.notificationId));
+    }
+
+    @Override
+    public void setOnReadNotificationsListener() {
+        RetrofitApi.readNotifications(this, Arrays.asList(Constant.userInformation.userId));
+    }
+
+    @Override
+    public void setOnRemoveNotificationListener(Notification notification) {
+        RetrofitApi.removeNotification(this, Arrays.asList(notification.notificationId));
+    }
+
+    @Override
+    public void loadNotificationListener() {
+        if (hasNext) {
+            RetrofitApi.getNotifications(new NotificationParam(
+                    Constant.userInformation.userId,
+                    0, null, page, size), this);
+        }
     }
 }

@@ -35,8 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Happy International Women's Day 8/3"/>
+                android:fontFamily="@font/inter_bold"/>
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
@@ -53,8 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textSize="12sp"
-                    android:text="Mar 28, 2021 15:35"/>
+                    android:textSize="12sp"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/top_corner"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/option_notification"
+    app:behavior_hideable="true"
+    android:padding="32dp"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <TextView
+        android:text="@string/choose_language"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_semibold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:id="@+id/rdg_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rd_vn"
+            android:text="@string/vietnam"
+            android:textSize="18sp"
+            android:buttonTint="@color/blue"
+            android:layoutDirection="rtl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/rd_en"
+            android:text="@string/english"
+            android:textSize="18sp"
+            android:buttonTint="@color/blue"
+            android:layoutDirection="rtl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+</LinearLayout>

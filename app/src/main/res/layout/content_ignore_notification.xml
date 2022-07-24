@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RadioGroup  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rdg_time"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/rd_15"
+        android:text="@string/for_15_minutes"
+        android:textSize="18sp"
+        android:buttonTint="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioButton
+        android:id="@+id/rd_30"
+        android:text="@string/for_30_minutes"
+        android:textSize="18sp"
+        android:buttonTint="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioButton
+        android:id="@+id/rd_1h"
+        android:text="@string/for_1_hour"
+        android:textSize="18sp"
+        android:buttonTint="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioButton
+        android:id="@+id/rd_4h"
+        android:text="@string/for_4_hours"
+        android:textSize="18sp"
+        android:buttonTint="@color/light_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RadioGroup>

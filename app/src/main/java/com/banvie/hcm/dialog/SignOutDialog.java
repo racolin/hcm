@@ -5,23 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 
 import com.banvie.hcm.LoginActivity;
 import com.banvie.hcm.R;
-import com.banvie.hcm.api.Constant;
-import com.banvie.hcm.api.RetrofitApi;
-import com.banvie.hcm.model.checkout.CheckOut;
+import com.banvie.hcm.Support;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Date;
 
 public class SignOutDialog extends Dialog {
 
@@ -42,8 +39,13 @@ public class SignOutDialog extends Dialog {
 
     private void initUI() {
         btn_no = findViewById(R.id.btn_no);
+        btn_no.setText(R.string.no);
         btn_yes = findViewById(R.id.btn_yes);
+        btn_yes.setText(R.string.yes);
+        FrameLayout layout_content = findViewById(R.id.layout_content);
+        LayoutInflater.from(getContext()).inflate(R.layout.content_checkout, layout_content, true);
         ((TextView) findViewById(R.id.tv_content)).setText(R.string.sign_out_content);
+        ((TextView) findViewById(R.id.tv_title)).setText(R.string.notification_content);
     }
 
     private void initListener() {

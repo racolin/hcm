@@ -2,25 +2,22 @@ package com.banvie.hcm.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.banvie.hcm.LoginActivity;
 import com.banvie.hcm.R;
 
 public class IgnoreNotificationDialog extends Dialog {
 
-    Button btn_save, btn_close;
+    Button btn_no, btn_yes;
     RadioGroup rdg_time;
 
     public IgnoreNotificationDialog(@NonNull Context context) {
@@ -30,20 +27,27 @@ public class IgnoreNotificationDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_time_notification);
-
+        setContentView(R.layout.dialog_yes_no);
+        getWindow().setBackgroundDrawableResource(R.drawable.round_32);
         initUI();
         initListener();
     }
 
+
     private void initUI() {
-        btn_close = findViewById(R.id.btn_close);
-        btn_save = findViewById(R.id.btn_save);
+        btn_no = findViewById(R.id.btn_no);
+        btn_no.setText(R.string.no);
+        btn_yes = findViewById(R.id.btn_yes);
+        btn_yes.setText(R.string.yes);
+        FrameLayout layout_content = findViewById(R.id.layout_content);
+        LayoutInflater.from(getContext()).inflate(R.layout.content_ignore_notification, layout_content, true);
         rdg_time = findViewById(R.id.rdg_time);
+
+        ((TextView) findViewById(R.id.tv_title)).setText(R.string.turn_off_notify);
     }
 
     private void initListener() {
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int i = 0;
@@ -66,7 +70,7 @@ public class IgnoreNotificationDialog extends Dialog {
             }
         });
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
+        btn_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
@@ -76,15 +80,5 @@ public class IgnoreNotificationDialog extends Dialog {
 
     public void setIgnore(int i) {
         Log.d("rrr", i + "");
-    }
-
-    void signOut() {
-        SharedPreferences.Editor editor = getContext().getSharedPreferences("token", Context.MODE_PRIVATE).edit();
-        editor.remove("access_token").remove("token_type").remove("refresh_token").remove("expired");
-        editor.commit();
-        Intent intent = new Intent(getContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        getContext().startActivity(intent);
-        dismiss();
     }
 }

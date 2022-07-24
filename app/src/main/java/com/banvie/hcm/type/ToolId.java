@@ -1,0 +1,5 @@
+package com.banvie.hcm.type;
+
+public enum ToolId {
+    MY_TIME, PAYSLIP, SEAT_MAP, EMPLOYEES, ORGANIZATION_CHART, KNOWLEDGE_BASE, CALENDAR_BV, MANAGEMENT, MORE_TOOL
+}

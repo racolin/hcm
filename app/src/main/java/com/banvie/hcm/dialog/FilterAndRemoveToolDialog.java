@@ -18,6 +18,7 @@ import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
 import com.banvie.hcm.model.Tool;
 import com.banvie.hcm.type.ToolsType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterAndRemoveToolDialog extends Dialog implements OnClickAddOrRemoveToolListener {
@@ -28,11 +29,31 @@ public class FilterAndRemoveToolDialog extends Dialog implements OnClickAddOrRem
     OnClickAddOrRemoveToolListener listener;
 
     public FilterAndRemoveToolDialog(@NonNull Context context, OnClickAddOrRemoveToolListener listener,
-                                     List<Tool> showing, List<Tool> hiding) {
+                                     List<Tool> tools) {
         super(context);
         this.listener = listener;
-        this.showing =showing;
-        this.hiding = hiding;
+        this.showing = getShowing(tools);
+        this.hiding = getHiding(tools);
+    }
+
+    private List<Tool> getShowing(List<Tool> tools) {
+        List<Tool> ts = new ArrayList<>();
+        for (Tool tool : tools) {
+            if (tool.isShow) {
+                ts.add(tool);
+            }
+        }
+        return ts;
+    }
+
+    private List<Tool> getHiding(List<Tool> tools) {
+        List<Tool> ts = new ArrayList<>();
+        for (Tool tool : tools) {
+            if (!tool.isShow) {
+                ts.add(tool);
+            }
+        }
+        return ts;
     }
 
     @Override
@@ -62,19 +83,6 @@ public class FilterAndRemoveToolDialog extends Dialog implements OnClickAddOrRem
         rv_tools_hide.setAdapter(adapter_hide);
         rv_tools_hide.setLayoutManager(new GridLayoutManager(getContext(), 3));
         layout.addView(hide);
-
-//
-//        ((TextView) findViewById(R.id.tv_title_show)).setText(R.string.showing_tools);
-//
-//        ((TextView) findViewById(R.id.tv_title_hide)).setText(R.string.hidden_tools);
-//
-//        rv_tools_show = findViewById(R.id.rv_tools_show);
-//        rv_tools_show.setAdapter(new ToolAdapter(getContext(), showing, ToolsType.SHOWING));
-//        rv_tools_show.setLayoutManager(new GridLayoutManager(getContext(), 3));
-//
-//        rv_tools_hide = findViewById(R.id.rv_tools_hide);
-//        rv_tools_hide.setAdapter(new ToolAdapter(getContext(), hiding, ToolsType.HIDING));
-//        rv_tools_hide.setLayoutManager(new GridLayoutManager(getContext(), 3));
     }
 
     private void initListener() {
@@ -83,7 +91,7 @@ public class FilterAndRemoveToolDialog extends Dialog implements OnClickAddOrRem
 
     @Override
     public void setOnClickAddOrRemoveTool(Tool tool) {
-        if (tool.isShow()) {
+        if (tool.isShow) {
             adapter_show.addTool(tool);
         } else {
             adapter_hide.addTool(tool);

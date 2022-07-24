@@ -24,9 +24,9 @@
     <string name="more_tools">More Tools</string>
 
     <string name="morning">Good Morning, </string>
-    <string name="afternoon">Good Afternoon, </string>
-    <string name="evening">Good Evening, </string>
-    <string name="welcome">Welcome Back, </string>
+    <string name="afternoon">Good Afternoon </string>
+    <string name="evening">Good Evening </string>
+    <string name="welcome">Welcome Back </string>
     <string name="hand">👋</string>
 
     <string name="bv_tools">BV Tools</string>
@@ -73,4 +73,23 @@
     <string name="shui">SHUI</string>
     <string name="access_token">Access Token</string>
     <string name="sound_on">Sound on</string>
+    <string name="choose_language">Choose language</string>
+    <string name="vietnam">Vietnamese</string>
+    <string name="english">English</string>
+    <string name="notices">Internal Notices</string>
+    <string name="search_employee_hint">Search by CIF, Full Name, Team</string>
+    <string name="employee_label">employees</string>
+    <string name="cif">CIF</string>
+    <string name="dob">Day of birth</string>
+    <string name="gender">Gender</string>
+    <string name="married">Marital status</string>
+    <string name="team">Team</string>
+    <string name="office">Office</string>
+    <string name="join">Join date</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="policy">Policy</string>
+    <string name="position">Position</string>
+    <string name="checkinout_title">Check in / Check out</string>
+    <string name="notification_content">Notification</string>
 </resources>

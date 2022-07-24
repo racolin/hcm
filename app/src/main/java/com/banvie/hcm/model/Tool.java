@@ -1,48 +1,24 @@
 package com.banvie.hcm.model;
 
+import com.banvie.hcm.type.ToolId;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class Tool implements Serializable {
-    private String name;
-    private byte[] image;
-    private boolean isShow = true;
+    public ToolId id;
+    public String name;
+    public byte[] image;
+    public boolean isShow = true;
 
-    public Tool(String name, byte[] image) {
+    public Tool() {
+
+    }
+
+    public Tool(ToolId id, String name, byte[] image) {
+        this.id = id;
         this.name = name;
-        this.image = image;
-    }
-
-    public void setShow() {
-        isShow = true;
-    }
-
-    public void setHide() {
-        isShow = false;
-    }
-
-    public boolean isShow() {
-        return isShow;
-    }
-
-    public boolean isHide() {
-        return !isShow;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
         this.image = image;
     }
 

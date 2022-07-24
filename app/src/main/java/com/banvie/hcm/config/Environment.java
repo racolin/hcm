@@ -6,7 +6,5 @@ public class Environment {
     public static final String UAT = "https://uat-nexthcm-api.banvien.com.vn/";
     public static final String PRODUCTION = "https://api-hcm.banvien.com.vn/";
 
-    public static String getEnvironment() {
-        return PRODUCTION;
-    }
+    public static final String environment = PRODUCTION;
 }

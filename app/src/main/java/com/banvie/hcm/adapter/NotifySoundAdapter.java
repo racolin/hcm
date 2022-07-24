@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ public class NotifySoundAdapter extends RecyclerView.Adapter<NotifySoundAdapter.
         holder.tv_title.setText(Support.convertAllUpper(containers.get(position).moduleName));
         holder.rv_items.setAdapter(new NotifySoundItemAdapter(context, containers.get(position).listNotifiSetting));
         holder.rv_items.setLayoutManager(new LinearLayoutManager(context));
+        holder.rv_items.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
     }
 
     @Override

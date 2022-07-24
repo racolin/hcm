@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/line"
+    android:layout_centerHorizontal="true"
+    android:layout_gravity="center_horizontal"
+    android:fontFamily="@font/inter_regular"
+    android:gravity="center"
+    android:justificationMode="inter_word"
+    android:lineSpacingMultiplier="1.26"
+    android:paddingHorizontal="28dp"
+    android:paddingVertical="16dp"
+    android:textSize="18sp" />

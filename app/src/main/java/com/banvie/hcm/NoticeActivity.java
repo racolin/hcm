@@ -27,12 +27,11 @@ public class NoticeActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        
 
         Toolbar toolbar = findViewById(R.id.tb);
 
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText("Policy");
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.policy);
 
         setSupportActionBar(toolbar);
 
@@ -48,16 +47,16 @@ public class NoticeActivity extends AppCompatActivity {
         setupToolbar();
 
         ((TextView) findViewById(R.id.tv_content))
-                .setText(HtmlCompat.fromHtml(policy.getLongDescription(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+                .setText(HtmlCompat.fromHtml(policy.longDescription, HtmlCompat.FROM_HTML_MODE_COMPACT));
 
         ((TextView) findViewById(R.id.tv_title))
-                .setText(policy.getTopic());
+                .setText(policy.topic);
 
         ((TextView) findViewById(R.id.tv_time))
                 .setText(policy.getTimeString("MMM dd, yyyy HH:mm"));
 
         ((ImageView) findViewById(R.id.iv_notice))
-                .setImageBitmap(BitmapFactory.decodeByteArray(policy.getImage(), 0, policy.getImage().length));
+                .setImageBitmap(BitmapFactory.decodeByteArray(policy.image, 0, policy.image.length));
     }
 
     private Policy getData() {

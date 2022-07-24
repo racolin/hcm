@@ -16,6 +16,18 @@
         android:theme="@style/Theme.Hcm"
         tools:targetApi="31">
         <activity
+            android:name=".OrganizationChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrganizationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmployeesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmployeeActivity"
+            android:exported="false" />
+        <activity
             android:name=".NotificationAndSoundActivity"
             android:exported="false" />
         <activity

@@ -22,25 +22,11 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHolder> {
 
-    List<Policy> policies;
+    public List<Policy> policies;
     Context context;
-    Disposable disposable;
 
     public NoticeAdapter(Context context, List<Policy> policies) {
         this.context = context;
-        this.policies = policies;
-    }
-
-    public void update(List<Policy> policies) {
-        this.policies = policies;
-        notifyDataSetChanged();
-    }
-
-    public List<Policy> getNotices() {
-        return policies;
-    }
-
-    public void setNotices(List<Policy> policies) {
         this.policies = policies;
     }
 
@@ -52,9 +38,9 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHold
 
     @Override
     public void onBindViewHolder(@NonNull NoticeHolder holder, int position) {
-        holder.tv_title.setText(policies.get(position).getTopic());
+        holder.tv_title.setText(policies.get(position).topic);
         holder.tv_time.setText(policies.get(position).getTimeString("MMM dd, yyyy HH:mm"));
-        byte[] image = policies.get(position).getImage();
+        byte[] image = policies.get(position).image;
         if (image != null) {
             holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
         }

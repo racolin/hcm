@@ -24,6 +24,8 @@ public class CustomInterceptor implements Interceptor {
                 .headers(headers)
                 .build();
 
+        Log.d("debug:" + this.getClass(), "URL: " + originalRequest.url().toString());
+
         Response response = chain.proceed(newRequest);
 
         return response;

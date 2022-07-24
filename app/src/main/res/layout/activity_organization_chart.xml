@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".OrganizationChartActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_marginHorizontal="8dp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/layout"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@drawable/both_stroke"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@color/yellow"
+                        app:cardCornerRadius="50dp"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/iv_avatar"
+                            android:background="@color/blue"
+                            android:scaleType="fitCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_avatar"
+                            android:layout_gravity="center"
+                            android:textSize="32sp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_marginStart="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/card"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/ibt_info"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_contact_mail"
+                        app:tint="@color/light_text" />
+
+                </RelativeLayout>
+
+                <View android:layout_height="36dp"
+                    android:layout_width="2dp"
+                    android:layout_gravity="center"
+                    android:background="@color/stroke"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/top_1"
+                android:visibility="gone"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/layout_1"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@drawable/both_stroke"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_1"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@color/yellow"
+                        app:cardCornerRadius="50dp"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/iv_avatar_1"
+                            android:background="@color/blue"
+                            android:scaleType="fitCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_avatar_1"
+                            android:layout_gravity="center"
+                            android:textSize="32sp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_marginStart="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/card_1"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_name_1"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/inter_semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_type_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/ibt_info_1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_contact_mail"
+                        app:tint="@color/light_text" />
+
+                </RelativeLayout>
+
+                <View android:layout_height="36dp"
+                    android:layout_width="2dp"
+                    android:layout_gravity="center"
+                    android:background="@color/stroke"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_bot"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

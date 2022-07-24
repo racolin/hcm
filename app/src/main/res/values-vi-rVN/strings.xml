@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">hcm</string>
+    <string name="version_lable">Version</string>
+    <string name="version">1.0.0</string>
+
+    <string name="username_label">Tài khoản</string>
+    <string name="username_hint">Nhập tài khoản</string>
+    <string name="password_label">Mật khẩu</string>
+    <string name="password_hint">Nhập mật khẩu</string>
+    <string name="remember_login">Nhớ tài khoản trên thiết bị này</string>
+
+    <string name="signin">Đăng nhập</string>
+    <string name="note">
+        Không thể đăng nhập ứng dụng? Hãy liên hệ ngay cho <font color="#1B65E3">quản trị viên</font>.
+    </string>
+
+    <string name="working_time">Thời gian</string>
+    <string name="bv_calendar">Lịch BV</string>
+    <string name="payslip">Bảng lương</string>
+    <string name="seat_map">Sơ đồ chỗ ngồi</string>
+    <string name="employees">Nhân viên</string>
+    <string name="organization_chart">Sơ đồ nhân viên</string>
+    <string name="knowledge_base">Cơ sở tri thức</string>
+    <string name="more_tools">Nhiều hơn</string>
+
+    <string name="morning">Chào buổi sáng, </string>
+    <string name="afternoon">Chào buổi chiều, </string>
+    <string name="evening">Chào buổi tối, </string>
+    <string name="welcome">Mừng trở lại, </string>
+    <string name="hand">👋</string>
+
+    <string name="bv_tools">Công cụ BV</string>
+
+    <string name="checkout">Bạn có muốn điểm danh lúc </string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+
+    <string name="login_not_success">Tài khoản và mật khẩu không đúng!</string>
+
+    <string name="showing_tools">Được hiển thị</string>
+    <string name="hidden_tools">Được ẩn</string>
+    <string name="press_to_back">Nhấn trở về lần nữa để thoát!</string>
+    <string name="checkout_success">Thành công!</string>
+    <string name="checkout_not_success">Không thành công!</string>
+    <string name="notifications">Thông báo</string>
+    <string name="all_notify">Tất cả</string>
+    <string name="unread_notify">Chưa đọc</string>
+    <string name="new_notify">Mới</string>
+    <string name="request_notify">Yêu cầu đã gửi</string>
+    <string name="mark_all">Đọc tất cả</string>
+    <string name="request_manager">Quản lý yêu cầu</string>
+    <string name="readed">Đánh dấu đã đọc</string>
+    <string name="remove">Xóa thông báo này</string>
+    <string name="settings">Cài đặt</string>
+    <string name="personal">Thông tin chung</string>
+    <string name="notify_sounds"><![CDATA[Thông báo & Âm thanh]]></string>
+    <string name="language">Chọn ngôn ngữ</string>
+    <string name="message">Tin nhắn</string>
+    <string name="help"><![CDATA[Hỗ trợ & Phản hồi]]></string>
+    <string name="about">Về chúng tôi</string>
+    <string name="sign_out">Đăng suất</string>
+    <string name="sign_out_content">Bạn có muốn đăng xuất không?</string>
+    <string name="turn_off_notify">Tắt thông báo</string>
+    <string name="for_15_minutes">Tắt trong 15 phút</string>
+    <string name="for_30_minutes">Tắt trong 30 phút</string>
+    <string name="for_1_hour">Tắt trong 1 tiếng</string>
+    <string name="for_4_hours">Tắt trong 4 tiếng</string>
+    <string name="save">Lưu</string>
+    <string name="close">Đóng</string>
+    <string name="summary">Cá nhân</string>
+    <string name="employee_ducation">Thời gian làm việc</string>
+    <string name="education">Học vấn</string>
+    <string name="shui">SHUI</string>
+    <string name="access_token">Mã truy cập</string>
+    <string name="sound_on">Sound on</string>
+    <string name="choose_language">Choose language</string>
+    <string name="vietnam">Tiếng Việt</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="notices">Thông tin nội bộ</string>
+    <string name="search_employee_hint">Tìm bằng CIF, Họ tên, Team</string>
+    <string name="employee_label">nhân viên</string>
+    <string name="cif">CIF</string>
+    <string name="dob">Ngày sinh</string>
+    <string name="gender">Giới tính</string>
+    <string name="married">Tình trạng hôn nhân</string>
+    <string name="team">Team</string>
+    <string name="office">Văn phòng</string>
+    <string name="join">Ngày vào</string>
+    <string name="phone">Điện thoại</string>
+    <string name="email">Email</string>
+    <string name="policy">Policy</string>
+    <string name="position">Vị trí</string>
+    <string name="checkinout_title">Check in / Check out</string>
+    <string name="notification_content">Thông báo</string>
+</resources>

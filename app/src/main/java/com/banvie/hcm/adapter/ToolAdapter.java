@@ -13,32 +13,69 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.banvie.hcm.EmployeesActivity;
+import com.banvie.hcm.OrganizationActivity;
+import com.banvie.hcm.OrganizationChartActivity;
 import com.banvie.hcm.R;
 import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
+import com.banvie.hcm.type.ToolId;
 import com.banvie.hcm.type.ToolsType;
 import com.banvie.hcm.dialog.MoreToolsDialog;
 import com.banvie.hcm.model.Tool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
 
-    List<Tool> tools;
+    List<Tool> tools, _tools;
     Context context;
     ToolsType type;
     OnClickAddOrRemoveToolListener listener;
 
     public ToolAdapter(Context context, List<Tool> tools, ToolsType type) {
         this.type = type;
-        this.tools = tools;
+        this._tools = tools;
         this.context = context;
+        setTools();
     }
 
     public ToolAdapter(Context context, OnClickAddOrRemoveToolListener listener, List<Tool> tools, ToolsType type) {
         this.type = type;
-        this.tools = tools;
+        this._tools = tools;
         this.context = context;
         this.listener = listener;
+        setTools();
+    }
+
+    private void setTools() {
+        tools = new ArrayList<>();
+        if (ToolsType.HIDING == type) {
+            for (Tool t : _tools) {
+                if (!t.isShow) {
+                    this.tools.add(t);
+                }
+            }
+        }
+        if (ToolsType.SHOWING == type) {
+            for (Tool t : _tools) {
+                if (t.isShow) {
+                    this.tools.add(t);
+                }
+            }
+        }
+        if (ToolsType.ALL == type) {
+            for (Tool t : _tools) {
+                this.tools.add(t);
+            }
+        }
+        if (ToolsType.HIGH_LIGHT == type) {
+            for (Tool t : _tools) {
+                if (t.isShow) {
+                    this.tools.add(t);
+                }
+            }
+        }
     }
 
     public void addTool(Tool tool) {
@@ -68,14 +105,14 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ToolHolder holder, int position) {
-        holder.tv_name.setText(tools.get(position).getName());
-        holder.iv_tool.setImageBitmap(BitmapFactory.decodeByteArray(
-                tools.get(position).getImage(),
-                0,
-                tools.get(position).getImage().length));
-        holder.iv_status.setBackgroundColor(Color.TRANSPARENT);
 
         final int i = position;
+        holder.tv_name.setText(tools.get(position).name);
+        holder.iv_tool.setImageBitmap(BitmapFactory.decodeByteArray(
+                tools.get(position).image,
+                0,
+                tools.get(position).image.length));
+        holder.iv_status.setBackgroundColor(Color.TRANSPARENT);
 
         switch (type) {
             case HIDING:
@@ -85,8 +122,8 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                     @Override
                     public void onClick(View view) {
                         context.getSharedPreferences("tools_status", Context.MODE_PRIVATE)
-                                .edit().remove(tools.get(i).getName()).commit();
-                        tools.get(i).setShow();
+                                .edit().remove(tools.get(i).name).commit();
+                        tools.get(i).isShow = true;
                         listener.setOnClickAddOrRemoveTool(tools.get(i));
                         removeToolFromIndex(i);
                     }
@@ -99,43 +136,52 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                     @Override
                     public void onClick(View view) {
                         context.getSharedPreferences("tools_status", Context.MODE_PRIVATE)
-                                .edit().putBoolean(tools.get(i).getName(), true).commit();
-                        tools.get(i).setHide();
+                                .edit().putBoolean(tools.get(i).name, true).commit();
+                        tools.get(i).isShow = false;
                         listener.setOnClickAddOrRemoveTool(tools.get(i));
                         removeToolFromIndex(i);
                     }
                 });
                 break;
             case ALL:
-                if (tools.get(i).getName().equals(context.getString(R.string.more_tools))) {
+                if (tools.get(i).name.equals(context.getString(R.string.more_tools))) {
                     holder.itemView.setVisibility(View.GONE);
                 }
             case HIGH_LIGHT:
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        goToTool(i);
+                        goToTool(tools.get(i).id);
                     }
                 });
         }
     }
 
-    private void goToTool(int position) {
-        String name = tools.get(position).getName();
-        String more = context.getString(R.string.more_tools);
-        if (name.equals(more)) {
-            MoreToolsDialog dialog = new MoreToolsDialog(context, tools);
-            dialog.show();
-            return;
-        }
-        Intent intent = null;
-        for (Tool tool : tools) {
-            if (tool.getName().equals(name)) {
-//                intent = new Intent(context, );
+    private void goToTool(ToolId id) {
+        switch (id) {
+            case MY_TIME:
                 break;
-            }
+            case PAYSLIP:
+                break;
+            case SEAT_MAP:
+                break;
+            case EMPLOYEES:
+                Intent emp = new Intent(context, EmployeesActivity.class);
+                context.startActivity(emp);
+                break;
+            case ORGANIZATION_CHART:
+                Intent org = new Intent(context, OrganizationChartActivity.class);
+                context.startActivity(org);
+                break;
+            case KNOWLEDGE_BASE:
+                break;
+            case CALENDAR_BV:
+                break;
+            case MORE_TOOL:
+                MoreToolsDialog dialog = new MoreToolsDialog(context, _tools);
+                dialog.show();
+                break;
         }
-//        context.startActivity(intent);
     }
 
     @Override

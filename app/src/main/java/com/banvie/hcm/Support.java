@@ -67,6 +67,18 @@ public class Support {
         }
     }
 
+    public static byte[] reduceImage(byte[] image) {
+        int len = image.length;
+        if (len > 5000) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, len);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, (int) ((5000.0 /  len) * 100), bos);
+            Log.d("rrr", image.length + "  " + bos.toByteArray().length);
+            return bos.toByteArray();
+        }
+        return image;
+    }
+
     private static String convertUpper(String str) {
         String s = str.toLowerCase();
 
@@ -85,5 +97,10 @@ public class Support {
     public static String convertFirstUpper(String str) {
         String[] ss = convertUpper(str).split("_");
         return String.join(" ", ss);
+    }
+
+    public static String getFirstTextOfName(String firstName) {
+        String[] s = firstName.split(" ");
+        return s[s.length - 1].substring(0, 1);
     }
 }

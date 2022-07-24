@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/hcm/app/src/main/res/drawable/background_icon_employee.xml" value="0.14" />
         <entry key="..\:/hcm/app/src/main/res/drawable/background_token.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/bold_line.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/bot_stroke.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/both_strok.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/both_stroke.xml" value="0.2" />
         <entry key="..\:/hcm/app/src/main/res/drawable/btn_cancel.xml" value="0.181" />
         <entry key="..\:/hcm/app/src/main/res/drawable/btn_ok.xml" value="0.181" />
         <entry key="..\:/hcm/app/src/main/res/drawable/circle.xml" value="0.165" />
@@ -14,34 +19,59 @@
         <entry key="..\:/hcm/app/src/main/res/drawable/ic_copy.xml" value="0.1875" />
         <entry key="..\:/hcm/app/src/main/res/drawable/ic_message_img.xml" value="0.181" />
         <entry key="..\:/hcm/app/src/main/res/drawable/ic_shui.xml" value="0.181" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/layout_organization.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/left_15.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/none_stroke.xml" value="0.2" />
         <entry key="..\:/hcm/app/src/main/res/drawable/notify_type.xml" value="0.165" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/radio_button.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/radio_check.xml" value="0.1875" />
         <entry key="..\:/hcm/app/src/main/res/drawable/round_15.xml" value="0.1685" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/round_32.xml" value="0.2" />
         <entry key="..\:/hcm/app/src/main/res/drawable/select_notify_type.xml" value="0.165" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/stroke_hover.xml" value="0.2" />
         <entry key="..\:/hcm/app/src/main/res/drawable/switch_custom.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/switch_thumb.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/switch_track.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/thin_line.xml" value="0.1875" />
         <entry key="..\:/hcm/app/src/main/res/drawable/thumb.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/top_corner.xml" value="0.1" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/top_stroke.xml" value="0.2" />
         <entry key="..\:/hcm/app/src/main/res/drawable/topleft_topright.xml" value="0.181" />
         <entry key="..\:/hcm/app/src/main/res/drawable/un_select_notify_type.xml" value="0.165" />
+        <entry key="..\:/hcm/app/src/main/res/drawable/uncheck.xml" value="0.1875" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_employee.xml" value="0.264" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_employees.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_login.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_message.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_notice.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_notification.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/activity_notification_and_sound.xml" value="0.27447916666666666" />
-        <entry key="..\:/hcm/app/src/main/res/layout/activity_profile.xml" value="0.4" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_organization.xml" value="0.27447916666666666" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_organization_chart.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_organization_form.xml" value="0.2734375" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_profile.xml" value="0.264" />
+        <entry key="..\:/hcm/app/src/main/res/layout/activity_splash_screen.xml" value="0.18206521739130435" />
+        <entry key="..\:/hcm/app/src/main/res/layout/bottom_employee.xml" value="0.4" />
+        <entry key="..\:/hcm/app/src/main/res/layout/bottom_manager.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/checkout_dialog.xml" value="0.2734375" />
+        <entry key="..\:/hcm/app/src/main/res/layout/choose_language.xml" value="0.2734375" />
+        <entry key="..\:/hcm/app/src/main/res/layout/content_checkout.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/dialog_checkout.xml" value="0.27447916666666666" />
-        <entry key="..\:/hcm/app/src/main/res/layout/dialog_filter_tools.xml" value="0.1" />
+        <entry key="..\:/hcm/app/src/main/res/layout/dialog_filter_tools.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/dialog_time_notification.xml" value="0.2734375" />
-        <entry key="..\:/hcm/app/src/main/res/layout/dialog_yes_no.xml" value="0.27447916666666666" />
+        <entry key="..\:/hcm/app/src/main/res/layout/dialog_yes_no.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/layout/employee.xml" value="0.27447916666666666" />
+        <entry key="..\:/hcm/app/src/main/res/layout/employee_item.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_body.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_home.xml" value="0.27447916666666666" />
-        <entry key="..\:/hcm/app/src/main/res/layout/fragment_list_notifications.xml" value="0.264" />
+        <entry key="..\:/hcm/app/src/main/res/layout/fragment_list_notifications.xml" value="0.4" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_notification.xml" value="0.27447916666666666" />
-        <entry key="..\:/hcm/app/src/main/res/layout/fragment_settings.xml" value="0.2734375" />
+        <entry key="..\:/hcm/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_tool.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/home_body.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/internal_notice.xml" value="0.264" />
-        <entry key="..\:/hcm/app/src/main/res/layout/item.xml" value="0.27447916666666666" />
+        <entry key="..\:/hcm/app/src/main/res/layout/item.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/item_profile.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/notice.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/notification.xml" value="0.2734375" />

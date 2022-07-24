@@ -18,6 +18,7 @@ import com.banvie.hcm.ProfileActivity;
 import com.banvie.hcm.R;
 import com.banvie.hcm.adapter.ProfileAdapter;
 import com.banvie.hcm.api.RetrofitApi;
+import com.banvie.hcm.bottom_sheet.ChooseLanguageBottomSheet;
 import com.banvie.hcm.dialog.SignOutDialog;
 import com.banvie.hcm.listener.OnLoadProfileListener;
 import com.banvie.hcm.model.education.Education;
@@ -78,8 +79,8 @@ public class SettingFragment extends Fragment {
         language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), NotificationAndSoundActivity.class);
-                startActivity(intent);
+                ChooseLanguageBottomSheet sheet = new ChooseLanguageBottomSheet(getContext());
+                sheet.show(getChildFragmentManager(), sheet.getTag());
             }
         });
 

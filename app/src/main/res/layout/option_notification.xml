@@ -7,18 +7,20 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
-    android:id="@+id/option_bottom"
+    android:id="@+id/option_notification"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <ImageView
         android:id="@+id/iv_image"
+        android:background="@color/dark"
         android:layout_width="60dp"
         android:layout_height="60dp"/>
 
     <TextView
         android:id="@+id/tv_title"
+        android:layout_marginVertical="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -44,6 +46,8 @@
             android:src="@drawable/ic_check"/>
 
         <TextView
+            android:id="@+id/tv_mark"
+            android:fontFamily="@font/inter_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -66,6 +70,8 @@
             android:src="@drawable/ic_cancel"/>
 
         <TextView
+            android:id="@+id/tv_remove"
+            android:fontFamily="@font/inter_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"

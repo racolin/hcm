@@ -3,6 +3,7 @@ package com.banvie.hcm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,8 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements OnLoadProfileL
     }
 
     private void setupToolbar() {
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        
 
         Toolbar toolbar = findViewById(R.id.tb);
 
@@ -101,21 +101,25 @@ public class ProfileActivity extends AppCompatActivity implements OnLoadProfileL
         summary_adapter = new ProfileAdapter(this, summary_names, summary_values);
         rv_summary.setAdapter(summary_adapter);
         rv_summary.setLayoutManager(new LinearLayoutManager(this));
+        rv_summary.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         rv_education = findViewById(R.id.rv_education);
         education_adapter = new ProfileAdapter(this, education_names, education_values);
         rv_education.setAdapter(education_adapter);
         rv_education.setLayoutManager(new LinearLayoutManager(this));
+        rv_education.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         rv_employee = findViewById(R.id.rv_employee);
         employee_adapter = new ProfileAdapter(this, employee_names, employee_values);
         rv_employee.setAdapter(employee_adapter);
         rv_employee.setLayoutManager(new LinearLayoutManager(this));
+        rv_employee.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         rv_shui = findViewById(R.id.rv_shui);
         shui_adapter = new ProfileAdapter(this, shui_names, shui_values);
         rv_shui.setAdapter(shui_adapter);
         rv_shui.setLayoutManager(new LinearLayoutManager(this));
+        rv_shui.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         RetrofitApi.getUserSummary(this);
         RetrofitApi.getEmployeeDuration(this);
@@ -211,7 +215,7 @@ public class ProfileActivity extends AppCompatActivity implements OnLoadProfileL
 
     @Override
     public void setOnSummaryListener(Summary summary) {
-        tv_full_name.setText(summary.fullName == null ? "" : summary.fullName);
+        tv_full_name.setText(summary.fullName.equals("") ? "" : summary.fullName);
         tv_id.setText(summary.cif);
         summary_values.set(0, summary.organization.name);
         summary_values.set(1, summary.jobTitle.name);
