@@ -32,7 +32,8 @@ import com.squareup.moshi.Moshi;
 import java.io.IOException;
 import java.util.Base64;
 
-public class HomeActivity extends AppCompatActivity implements OnLoadNotificationsNumberListener {
+public class HomeActivity extends AppCompatActivity
+        implements OnLoadNotificationsNumberListener {
 
     private ImageButton ibt_checkout;
     private BottomNavigationView nv_bottom;

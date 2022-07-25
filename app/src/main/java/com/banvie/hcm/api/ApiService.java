@@ -5,7 +5,6 @@ import com.banvie.hcm.model.RefreshToken;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOutContainer;
 import com.banvie.hcm.model.education.EducationContainer;
-import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
 import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
 import com.banvie.hcm.model.individual.IndividualContainer;

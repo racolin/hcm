@@ -106,7 +106,6 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
     @Override
     public void onBindViewHolder(@NonNull ToolHolder holder, int position) {
 
-        final int i = position;
         holder.tv_name.setText(tools.get(position).name);
         holder.iv_tool.setImageBitmap(BitmapFactory.decodeByteArray(
                 tools.get(position).image,
@@ -121,6 +120,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int i = holder.getAdapterPosition();
                         context.getSharedPreferences("tools_status", Context.MODE_PRIVATE)
                                 .edit().remove(tools.get(i).name).commit();
                         tools.get(i).isShow = true;
@@ -135,6 +135,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int i = holder.getAdapterPosition();
                         context.getSharedPreferences("tools_status", Context.MODE_PRIVATE)
                                 .edit().putBoolean(tools.get(i).name, true).commit();
                         tools.get(i).isShow = false;
@@ -144,14 +145,16 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                 });
                 break;
             case ALL:
+                int i = holder.getAdapterPosition();
                 if (tools.get(i).name.equals(context.getString(R.string.more_tools))) {
                     holder.itemView.setVisibility(View.GONE);
                 }
             case HIGH_LIGHT:
+                int j = holder.getAdapterPosition();
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        goToTool(tools.get(i).id);
+                        goToTool(tools.get(j).id);
                     }
                 });
         }

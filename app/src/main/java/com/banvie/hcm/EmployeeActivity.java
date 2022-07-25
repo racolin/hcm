@@ -6,18 +6,22 @@ import androidx.appcompat.widget.Toolbar;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.banvie.hcm.api.ApiService;
 import com.banvie.hcm.model.employee.Employee;
+import com.banvie.hcm.model.employee.EmployeeContainer;
 
-public class EmployeeActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class EmployeeActivity extends AppCompatActivity  {
+
+    String cif;
     Employee employee;
-
     ImageView iv_avatar;
 
     TextView tv_phone, tv_email, tv_cif, tv_dob, tv_gender, tv_name,
@@ -29,7 +33,23 @@ public class EmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
 
-        employee = (Employee) getIntent().getSerializableExtra("employee");
+        cif = getIntent().getStringExtra("cif");
+
+        if (cif == null && !cif.equals("")) {
+            ApiService.apiService.getEmployees(0, cif, true).enqueue(new Callback<EmployeeContainer>() {
+                @Override
+                public void onResponse(Call<EmployeeContainer> call, Response<EmployeeContainer> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<EmployeeContainer> call, Throwable t) {
+
+                }
+            });
+        }
 
         initUI();
         initListener();
@@ -50,12 +70,12 @@ public class EmployeeActivity extends AppCompatActivity {
         tv_type = findViewById(R.id.tv_type);
 
         tv_cif.setText(employee.cif);
-        tv_phone.setText(employee.phone);
-        tv_email.setText(employee.companyEmail);
-        tv_dob.setText(employee.birthDay);
-        tv_gender.setText(employee.gender);
-        tv_married.setText(employee.maritalStatus);
-        tv_team.setText(employee.organization.orgName);
+//        tv_phone.setText(employee.phone);
+//        tv_email.setText(employee.companyEmail);
+//        tv_dob.setText(employee.birthDay);
+//        tv_gender.setText(employee.gender);
+//        tv_married.setText(employee.);
+        tv_team.setText(employee.jobTitle.name);
         tv_name.setText(employee.fullName);
         tv_type.setText(employee.jobTitle.name);
 

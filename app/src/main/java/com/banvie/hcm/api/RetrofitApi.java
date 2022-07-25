@@ -2,9 +2,9 @@ package com.banvie.hcm.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
 
+import com.banvie.hcm.listener.OnChangeNotificationListener;
 import com.banvie.hcm.listener.OnCheckOutListener;
 import com.banvie.hcm.listener.OnLoadEmployeeListener;
 import com.banvie.hcm.listener.OnLoadImageListener;
@@ -18,12 +18,9 @@ import com.banvie.hcm.listener.OnLoginListener;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOutContainer;
 import com.banvie.hcm.model.education.EducationContainer;
-import com.banvie.hcm.model.employee.Em;
-import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
 import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
 import com.banvie.hcm.model.individual.IndividualContainer;
-import com.banvie.hcm.model.notification.Notification;
 import com.banvie.hcm.model.notification.NotificationContainer;
 import com.banvie.hcm.model.notification_sound.NotifySoundContainer;
 import com.banvie.hcm.model.organization_chart.OrganizationChart;
@@ -37,7 +34,6 @@ import com.banvie.hcm.model.policy.PolicyContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -101,14 +97,7 @@ public class RetrofitApi {
             @Override
             public void onResponse(Call<NotificationContainer> call, Response<NotificationContainer> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Notification> notifications = response.body().data.data.items;
                     listener.setOnLoadNotificationsListener(response.body());
-                    for (int i = 0; i < notifications.size(); i++) {
-                        String im = notifications.get(i).image;
-                        if (im != null && !im.equals("")) {
-                            getImage(im, i + param.pageNumber * param.pageSize, listener);
-                        }
-                    }
                 } else {
 
                 }
@@ -301,12 +290,12 @@ public class RetrofitApi {
         });
     }
 
-    static public void readNotification(OnLoadNotificationsListener listener, List<String> notifications) {
+    static public void readNotification(OnChangeNotificationListener listener, List<String> notifications) {
         ApiService.apiService.readNotification(notifications).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    listener.updateNotificationRead(notifications);
+                    listener.onReadNotification(notifications);
                 } else {
 
                 }
@@ -319,43 +308,12 @@ public class RetrofitApi {
         });
     }
 
-    static public void removeNotification(OnLoadNotificationsListener listener, List<String> notifications) {
-//        if (!isRead) {
-//            ApiService.apiService.readNotification(notifications).enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if (response.isSuccessful()) {
-//                        ApiService.apiService.removeNotification(notifications).enqueue(new Callback<Void>() {
-//                            @Override
-//                            public void onResponse(Call<Void> call, Response<Void> response) {
-//                                if (response.isSuccessful()) {
-//                                    listener.updateNotificationRemove(notifications);
-//                                } else {
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<Void> call, Throwable t) {
-//                                Log.d("rrrrremoveNotification", t.getMessage());
-//                            }
-//                        });
-//                    } else {
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    Log.d("rrrrremoveNotification", t.getMessage());
-//                }
-//            });
-//        }
+    static public void removeNotification(OnChangeNotificationListener listener, List<String> notifications) {
         ApiService.apiService.removeNotification(notifications).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    listener.updateNotificationRemove(notifications);
+                    listener.onRemoveNotification(notifications);
                 } else {
 
                 }
@@ -368,12 +326,12 @@ public class RetrofitApi {
         });
     }
 
-    static public void readNotifications(OnLoadNotificationsListener listener, List<String> userIds) {
+    static public void readNotifications(OnChangeNotificationListener listener, List<String> userIds) {
         ApiService.apiService.readNotifications(userIds).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    listener.updateNotificationRead(null);
+                    listener.onReadNotifications();
                 } else {
 
                 }
@@ -388,23 +346,12 @@ public class RetrofitApi {
     }
 
     static public void getEmployees(EmployeeParam param, OnLoadEmployeeListener listener) {
-
-//        Call<EmployeeContainer> call = ApiService.apiService.getEmployees(param.page, param.search, param.isMore);
         ApiService.apiService.getEmployees(param.page, param.search, param.isMore).enqueue(new Callback<EmployeeContainer>() {
             @Override
             public void onResponse(Call<EmployeeContainer> call, Response<EmployeeContainer> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     EmployeeContainer container = response.body();
                     listener.setOnLoadEmployeeListener(container);
-//                    List<Em> employees = container.data.items;
-//                    int len = employees.size();
-//                    final int size = container.data.size;
-//                    final int page = container.data.page;
-//                    for (int i = 0; i < len; i++) {
-//                        if (employees.get(i).image != null && !employees.get(i).image.equals("")) {
-//                            getImage(employees.get(i).image, i + size * (page - 1), listener);
-//                        }
-//                    }
                 } else {
 
                 }
@@ -416,7 +363,6 @@ public class RetrofitApi {
 
             }
         });
-//        call.cancel();
     }
 
     static public void getOrganizationChart(OnLoadItemOrganizationListener listener) {

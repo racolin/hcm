@@ -13,10 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
 
 import com.banvie.hcm.R;
+import com.banvie.hcm.listener.OnChangeNotificationListener;
 import com.banvie.hcm.listener.OnLoadNotificationsListener;
 import com.banvie.hcm.model.notification.Notification;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class OptionNotificationBottomSheet extends BottomSheetDialogFragment {
 
@@ -25,9 +29,9 @@ public class OptionNotificationBottomSheet extends BottomSheetDialogFragment {
 
     ImageView iv_image;
     TextView tv_mark, tv_remove, tv_title;
-    OnLoadNotificationsListener listener;
+    OnChangeNotificationListener listener;
 
-    public OptionNotificationBottomSheet(Notification notification, OnLoadNotificationsListener listener) {
+    public OptionNotificationBottomSheet(Notification notification, OnChangeNotificationListener listener) {
         this.listener = listener;
         this.notification = notification;
     }
@@ -70,7 +74,7 @@ public class OptionNotificationBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 if (!notification.read) {
-                    listener.setOnReadNotificationListener(notification);
+                    listener.readNotification(Arrays.asList(notification.notificationId));
                 }
                 dismiss();
             }
@@ -79,7 +83,8 @@ public class OptionNotificationBottomSheet extends BottomSheetDialogFragment {
         tv_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.setOnRemoveNotificationListener(notification);
+                Log.d("kkkkk", "hel");
+                listener.removeNotification(Arrays.asList(notification.notificationId));
                 dismiss();
             }
         });

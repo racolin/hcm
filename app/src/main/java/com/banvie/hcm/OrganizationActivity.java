@@ -8,20 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.banvie.hcm.adapter.OrganizationAdapter;
 import com.banvie.hcm.api.ApiService;
-import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.listener.OnLoadItemOrganizationListener;
-import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.organization_chart.OrganizationChart;
-import com.banvie.hcm.model.summary.JobTitle;
-import com.banvie.hcm.model.summary.Organization;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +24,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Predicate;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class OrganizationActivity extends AppCompatActivity implements OnLoadItemOrganizationListener {

@@ -44,12 +44,11 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHold
         if (image != null) {
             holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
         }
-        final int i = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, NoticeActivity.class);
-                intent.putExtra("notice", policies.get(i));
+                intent.putExtra("notice", policies.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
         });

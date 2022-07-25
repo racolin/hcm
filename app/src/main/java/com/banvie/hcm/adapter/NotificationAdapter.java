@@ -2,6 +2,7 @@ package com.banvie.hcm.adapter;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,38 +18,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.banvie.hcm.R;
 import com.banvie.hcm.Support;
+import com.banvie.hcm.api.ApiService;
 import com.banvie.hcm.bottom_sheet.OptionNotificationBottomSheet;
+import com.banvie.hcm.listener.OnChangeNotificationListener;
 import com.banvie.hcm.listener.OnLoadNotificationsListener;
 import com.banvie.hcm.model.notification.Notification;
-import com.banvie.hcm.type.ReloadMode;
-import com.banvie.hcm.type.ToolId;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationHolder> {
 
     public List<Notification> notifications;
-    public List<ReloadMode> ntfs_loaded;
     Context context;
-    OnLoadNotificationsListener listener;
+    OnChangeNotificationListener listener;
 
-    public NotificationAdapter(Context context, OnLoadNotificationsListener listener, List<Notification> notifications) {
+    public NotificationAdapter(Context context, OnChangeNotificationListener listener, List<Notification> notifications) {
         this.context = context;
-        this.listener = listener;
         this.notifications = notifications;
-        ntfs_loaded = new ArrayList<>();
-        fit();
-    }
-
-    private void fit() {
-        int l_1 = notifications.size();
-        int l_2 = ntfs_loaded.size();
-        if (l_1 > l_2) {
-            for (int i = 0; i < l_1- l_2; i++) {
-                ntfs_loaded.add(ReloadMode.INITIAL);
-            }
-        }
+        this.listener = listener;
     }
 
     @NonNull
@@ -60,26 +54,40 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
 //        initUI
-//        Log.d("rrrrrxx", "---" + position);
-        final int i = position;
-        if (ntfs_loaded.get(i) == ReloadMode.INITIAL) {
-            Log.d("rrrrrxx", "hello");
-            holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
-            holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
-            ntfs_loaded.set(i, ReloadMode.TEXT_LOADED);
-        }
+        holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
+        holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
 
-        if (ntfs_loaded.get(i) != ReloadMode.IMAGE_LOADED) {
-            Log.d("rrrrrxx", "holle");
-            holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
-            holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
-            byte[] img = notifications.get(position).image_bytes;
-            if (img != null) {
-                holder.iv_notification.setImageBitmap(BitmapFactory.decodeByteArray(img, 0, img.length));
-                ntfs_loaded.set(i, ReloadMode.IMAGE_LOADED);
-            } else {
+        if (notifications.get(position).image == null || notifications.get(position).image.equals("")) {
+            holder.iv_notification.setImageResource(R.drawable.logo);
+            holder.iv_notification.setBackgroundResource(R.color.dark);
+        } else {
+            byte[] img = notifications.get(holder.getAdapterPosition()).image_bytes;
+            if (img == null) {
                 holder.iv_notification.setImageResource(R.drawable.logo);
                 holder.iv_notification.setBackgroundResource(R.color.dark);
+                ApiService.apiService.getImage(notifications.get(holder.getAdapterPosition()).image).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            notifications.get(holder.getAdapterPosition()).image_bytes = Support.reduceImage(response.body().bytes());
+                            holder.iv_notification.setImageBitmap(
+                                    (BitmapFactory.decodeByteArray(notifications.get(holder.getAdapterPosition()).image_bytes,
+                                            0, notifications.get(holder.getAdapterPosition()).image_bytes.length)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            } else {
+                holder.iv_notification.setImageBitmap(
+                        BitmapFactory.decodeByteArray(
+                                notifications.get(holder.getAdapterPosition()).image_bytes,
+                                0, notifications.get(holder.getAdapterPosition()).image_bytes.length));
             }
         }
 
@@ -93,7 +101,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.ibt_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OptionNotificationBottomSheet sheet = new OptionNotificationBottomSheet(notifications.get(i), listener);
+                OptionNotificationBottomSheet sheet = new OptionNotificationBottomSheet(
+                        notifications.get(holder.getAdapterPosition()), listener);
                 sheet.show(((AppCompatActivity) context).getSupportFragmentManager(), sheet.getTag());
             }
         });
@@ -101,16 +110,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!notifications.get(i).read) {
-                    listener.setOnReadNotificationListener(notifications.get(i));
+                if (!notifications.get(holder.getAdapterPosition()).read) {
+                    listener.readNotification(Arrays.asList(
+                            notifications.get(holder.getAdapterPosition()).notificationId));
                 }
             }
         });
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     @Override

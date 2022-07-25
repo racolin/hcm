@@ -2,6 +2,6 @@ package com.banvie.hcm.listener;
 
 import com.banvie.hcm.model.employee.EmployeeContainer;
 
-public interface OnLoadEmployeeListener extends OnLoadImageListener {
+public interface OnLoadEmployeeListener {
     void setOnLoadEmployeeListener(EmployeeContainer container);
 }

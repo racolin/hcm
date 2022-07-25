@@ -1,76 +1,40 @@
 package com.banvie.hcm.adapter;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.banvie.hcm.api.ApiService;
+import com.banvie.hcm.api.Constant;
+import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.fragment.ListNotificationFragment;
-import com.banvie.hcm.listener.OnLoadNotificationsListener;
+import com.banvie.hcm.listener.OnChangeNotificationListener;
 import com.banvie.hcm.listener.OnLoadNotificationsNumberListener;
 import com.banvie.hcm.model.notification.Notification;
+import com.banvie.hcm.param.NotificationParam;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class NotificationTabAdapter extends FragmentStateAdapter {
+public class NotificationTabAdapter extends FragmentStateAdapter
+        implements OnChangeNotificationListener {
 
-    List<Notification> notifications, requestNotifications;
-    ListNotificationFragment all, request;
     OnLoadNotificationsNumberListener listener;
+    NotificationParam param;
+    Context context;
+    ListNotificationFragment request, all;
 
-    public NotificationTabAdapter(@NonNull Fragment fragment, OnLoadNotificationsListener loadListener, OnLoadNotificationsNumberListener listener, List<Notification> notifications) {
+    public NotificationTabAdapter(@NonNull Fragment fragment, OnLoadNotificationsNumberListener listener, NotificationParam param) {
         super(fragment);
-        this.notifications = notifications;
-        requestNotifications = getRequestNotifications();
-        all = new ListNotificationFragment(fragment.getContext(), loadListener, notifications, false);
-        request = new ListNotificationFragment(fragment.getContext(), loadListener, requestNotifications, true);
+        this.param = param;
         this.listener = listener;
-    }
-
-    public void setNotifications(List<Notification> ns) {
-        notifications = ns;
-//        notifications.clear();
-//        notifications.addAll(ns);
-        requestNotifications = getRequestNotifications();
-        all.setNotifications(notifications);
-        request.setNotifications(requestNotifications);
-    }
-
-    public void removeNotification(int i) {
-        all.removeNotification(i);
-        if (i == -1) {
-            request.setNotifications(new ArrayList<>());
-        } else {
-            int j = requestNotifications.indexOf(notifications.get(i));
-            if (j != -1) {
-                request.removeNotification(j);
-            }
-        }
-    }
-
-    public void updateNotification(int i) {
-        all.updateNotification(i);
-        if (i == -1) {
-//            requestNotifications.clear();
-//            requestNotifications.addAll(getRequestNotifications());
-//            request.updateNotification(i);
-            request.setNotifications(getRequestNotifications());
-        } else {
-            int j = requestNotifications.indexOf(notifications.get(i));
-            if (j != -1) {
-                request.updateNotification(j);
-            }
-        }
-    }
-
-    private List<Notification> getRequestNotifications() {
-        List<Notification> notifications = new ArrayList<>();
-        for (Notification notification : this.notifications) {
-            if (notification.type == 6 || notification.type == 8) {
-                notifications.add(notification);
-            }
-        }
-        return notifications;
+        context = fragment.getContext();
+        all = new ListNotificationFragment(context, this, listener,
+                new NotificationParam(param.userId, 0, param.statusRead, param.pageNumber, param.pageSize));
+        request = new ListNotificationFragment(context, this, listener,
+                new NotificationParam(param.userId, 1, param.statusRead, param.pageNumber, param.pageSize));
     }
 
     @Override
@@ -93,5 +57,38 @@ public class NotificationTabAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return 2;
+    }
+
+    @Override
+    public void removeNotification(List<String> ids) {
+        RetrofitApi.removeNotification(this, ids);
+    }
+
+    @Override
+    public void readNotification(List<String> ids) {
+        RetrofitApi.readNotification(this, ids);
+    }
+
+    @Override
+    public void readNotifications() {
+        RetrofitApi.readNotifications(this, Arrays.asList(param.userId));
+    }
+
+    @Override
+    public void onRemoveNotification(List<String> ids) {
+        request.removeNotification(ids);
+        all.removeNotification(ids);
+    }
+
+    @Override
+    public void onReadNotification(List<String> ids) {
+        request.readNotification(ids);
+        all.readNotification(ids);
+    }
+
+    @Override
+    public void onReadNotifications() {
+        request.readNotifications();
+        all.readNotifications();
     }
 }

@@ -49,17 +49,16 @@ public class OrganizationChartAdapter extends RecyclerView.Adapter<OrganizationC
 
     @Override
     public void onBindViewHolder(@NonNull OrganizationHolder holder, int position) {
-        final int i = position;
         holder.tv_name.setText(organizations.get(position).fullName);
         holder.tv_type.setText(organizations.get(position).jobTitle.name);
         if (organizations.get(position).image_bytes == null) {
-            holder.tv_avatar.setText(organizations.get(i).username.substring(0, 1).toUpperCase());
+            holder.tv_avatar.setText(organizations.get(position).username.substring(0, 1).toUpperCase());
             holder.iv_avatar.setBackgroundColor(context.getColor(R.color.blue));
         } else {
             holder.tv_avatar.setText("");
             holder.iv_avatar.setImageBitmap(
                     BitmapFactory.decodeByteArray(
-                            organizations.get(i).image_bytes, 0, organizations.get(i).image_bytes.length));
+                            organizations.get(position).image_bytes, 0, organizations.get(position).image_bytes.length));
         }
         if (position == 0 || position == organizations.size() - 1) {
             holder.layout.setBackgroundResource(position == 0 ? R.drawable.top_stroke : R.drawable.bot_stroke);
@@ -71,16 +70,16 @@ public class OrganizationChartAdapter extends RecyclerView.Adapter<OrganizationC
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EmployeeActivity.class);
-                intent.putExtra("employeeId", organizations.get(i).id);
+                intent.putExtra("employeeId", organizations.get(holder.getAdapterPosition()).id);
                 context.startActivity(intent);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isLoad && focus != i) {
+                if (!isLoad && focus != holder.getAdapterPosition()) {
                     isLoad = true;
-                    listener._setOnClickItemOrganizationListener(i);
+                    listener._setOnClickItemOrganizationListener(holder.getAdapterPosition());
                 }
             }
         });

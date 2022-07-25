@@ -65,7 +65,7 @@
         <entry key="..\:/hcm/app/src/main/res/layout/employee_item.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_body.xml" value="0.2734375" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_home.xml" value="0.27447916666666666" />
-        <entry key="..\:/hcm/app/src/main/res/layout/fragment_list_notifications.xml" value="0.2" />
+        <entry key="..\:/hcm/app/src/main/res/layout/fragment_list_notifications.xml" value="0.4" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_notification.xml" value="0.27447916666666666" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/hcm/app/src/main/res/layout/fragment_tool.xml" value="0.27447916666666666" />
@@ -91,9 +91,14 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/round_15.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/slider.xml" value="0.138" />
+        <entry key="app/src/main/res/layout/activity_employee.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/activity_employees.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_message.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/notification.xml" value="0.340625" />
         <entry key="app/src/main/res/layout/slider.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.33" />
       </map>
