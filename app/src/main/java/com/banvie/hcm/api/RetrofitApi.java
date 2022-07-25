@@ -2,6 +2,7 @@ package com.banvie.hcm.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import com.banvie.hcm.listener.OnCheckOutListener;
@@ -17,6 +18,7 @@ import com.banvie.hcm.listener.OnLoginListener;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOutContainer;
 import com.banvie.hcm.model.education.EducationContainer;
+import com.banvie.hcm.model.employee.Em;
 import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
 import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
@@ -129,9 +131,15 @@ public class RetrofitApi {
                         int len = image.length;
                         if (len > 5000) {
                             Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, len);
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, (int) ((5000.0 /  len) * 100), bos);
-                            image = bos.toByteArray();
+                            Log.d("rrr", image.length + "");
+                            if (bitmap != null) {
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, (int) ((5000.0 /  len) * 100), bos);
+                                image = bos.toByteArray();
+                            } else {
+                                listener.setOnLoadImageListener(image, i);
+                                return;
+                            }
                             Log.d("rrrrrrrrrr", len + " " + image.length);
                         }
                         listener.setOnLoadImageListener(image, i);
@@ -381,21 +389,22 @@ public class RetrofitApi {
 
     static public void getEmployees(EmployeeParam param, OnLoadEmployeeListener listener) {
 
+//        Call<EmployeeContainer> call = ApiService.apiService.getEmployees(param.page, param.search, param.isMore);
         ApiService.apiService.getEmployees(param.page, param.search, param.isMore).enqueue(new Callback<EmployeeContainer>() {
             @Override
             public void onResponse(Call<EmployeeContainer> call, Response<EmployeeContainer> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     EmployeeContainer container = response.body();
                     listener.setOnLoadEmployeeListener(container);
-                    List<Employee> employees = container.data.items;
-                    int len = employees.size();
-                    final int size = container.data.size;
-                    final int page = container.data.page;
-                    for (int i = 0; i < len; i++) {
-                        if (employees.get(i).image != null && !employees.get(i).image.equals("")) {
-                            getImage(employees.get(i).image, i + size * (page - 1), listener);
-                        }
-                    }
+//                    List<Em> employees = container.data.items;
+//                    int len = employees.size();
+//                    final int size = container.data.size;
+//                    final int page = container.data.page;
+//                    for (int i = 0; i < len; i++) {
+//                        if (employees.get(i).image != null && !employees.get(i).image.equals("")) {
+//                            getImage(employees.get(i).image, i + size * (page - 1), listener);
+//                        }
+//                    }
                 } else {
 
                 }
@@ -407,6 +416,7 @@ public class RetrofitApi {
 
             }
         });
+//        call.cancel();
     }
 
     static public void getOrganizationChart(OnLoadItemOrganizationListener listener) {

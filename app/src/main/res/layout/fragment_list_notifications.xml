@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
         android:layout_alignParentTop="true"
+        android:layout_above="@id/layout_mark"
         android:layout_marginHorizontal="4dp">
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -60,21 +60,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
 //        initUI
-        Log.d("rrrrrxx", "---" + position);
+//        Log.d("rrrrrxx", "---" + position);
         final int i = position;
         if (ntfs_loaded.get(i) == ReloadMode.INITIAL) {
             Log.d("rrrrrxx", "hello");
-            ntfs_loaded.set(i, ReloadMode.TEXT_LOADED);
             holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
             holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
+            ntfs_loaded.set(i, ReloadMode.TEXT_LOADED);
         }
 
         if (ntfs_loaded.get(i) != ReloadMode.IMAGE_LOADED) {
             Log.d("rrrrrxx", "holle");
+            holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
+            holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
             byte[] img = notifications.get(position).image_bytes;
             if (img != null) {
-                ntfs_loaded.set(i, ReloadMode.IMAGE_LOADED);
                 holder.iv_notification.setImageBitmap(BitmapFactory.decodeByteArray(img, 0, img.length));
+                ntfs_loaded.set(i, ReloadMode.IMAGE_LOADED);
             } else {
                 holder.iv_notification.setImageResource(R.drawable.logo);
                 holder.iv_notification.setBackgroundResource(R.color.dark);

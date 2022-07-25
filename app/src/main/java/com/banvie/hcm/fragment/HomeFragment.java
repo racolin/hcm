@@ -195,18 +195,6 @@ public class HomeFragment extends Fragment implements
         }
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        Log.d("debug:HomeFragment", "onDestroy");
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        Log.d("debug:HomeFragment", "onDestroyView");
-//    }
-
     @Override
     public void setOnLoadImageListener(byte[] image, int i) {
         policies.get(i).image = image;

@@ -49,13 +49,10 @@ public class NotificationFragment extends Fragment
     boolean hasNext;
 
     public NotificationFragment() {
-        notifications = new ArrayList<>();
     }
 
     public NotificationFragment(OnLoadNotificationsNumberListener listener) {
         this.listener = listener;
-        notifications = new ArrayList<>();
-        unreadNotifications = new ArrayList<>();
     }
 
     @Override
@@ -65,6 +62,7 @@ public class NotificationFragment extends Fragment
         page = 0;
         size = 15;
         total = 0;
+        notifications = new ArrayList<>();
         unreadNotifications = new ArrayList<>();
         loadNotificationListener();
     }
@@ -181,6 +179,9 @@ public class NotificationFragment extends Fragment
     @Override
     public void setOnLoadImageListener(byte[] image, int i) {
         notifications.get(i).image_bytes = image;
+
+//      Lần load đầu tiên có thể là adapter chưa được khởi tạo
+//      Nếu chưa được khởi tọa thì không thể cập nhật notification
         if (adapter != null) {
             adapter.updateNotification(i);
         }
@@ -220,7 +221,6 @@ public class NotificationFragment extends Fragment
                 Notification n = new Notification();
                 n.notificationId = id;
                 int k = notifications.indexOf(n);
-                Log.d("rrrrrxx", "ss" +k);
                 if (k != -1) {
                     adapter.removeNotification(k);
                 }
@@ -242,17 +242,16 @@ public class NotificationFragment extends Fragment
         hasNext = container.data.data.hasNext;
         List<Notification> ns = container.data.data.items;
 
-        if (page == 1) {
-            this.notifications.clear();
-            this.unreadNotifications.clear();
-        }
         this.notifications.addAll(ns);
         for (Notification n : ns) {
             if (!n.read) {
                 unreadNotifications.add(n);
             }
         }
+
         listener.setOnNotificationsNumberListener(container.unReadCount);
+
+//        load -1 là load tất cả trong khi chỉ cần load từ 1 đoạn mà thôi
         adapter.updateNotification(-1);
     }
 

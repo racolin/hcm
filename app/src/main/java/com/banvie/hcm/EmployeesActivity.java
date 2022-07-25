@@ -7,21 +7,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.banvie.hcm.adapter.EmployeeAdapter;
+import com.banvie.hcm.api.ApiService;
 import com.banvie.hcm.api.RetrofitApi;
 import com.banvie.hcm.listener.OnLoadEmployeeListener;
+import com.banvie.hcm.model.employee.Em;
+import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
 import com.banvie.hcm.param.EmployeeParam;
+import com.banvie.hcm.type.ReloadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeesActivity extends AppCompatActivity implements OnLoadEmployeeListener {
 
@@ -30,8 +34,9 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
     ImageButton ibt_search;
     TextView tv_count;
     EditText edt_search;
-    int page = 0, totalPage, size, total = 0;
-    boolean hasNext = true, loading = false;
+
+    int page, totalPage, size, total;
+    boolean hasNext, loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,10 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
     }
 
     private void initUI() {
+        page = 0;
+        total = 0;
+        hasNext = true;
+        loading = false;
 
         setupToolbar();
 
@@ -67,19 +76,14 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
         rv_employees = findViewById(R.id.rv_employees);
         rv_employees.setAdapter(adapter);
         rv_employees.setLayoutManager(new LinearLayoutManager(this));
-        rv_employees.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (hasNext && !rv_employees.canScrollVertically(1) && !loading) {
-                    loading = true;
-                    RetrofitApi.getEmployees(new EmployeeParam(page, edt_search.getText().toString(), true), EmployeesActivity.this);
-                }
-            }
-        });
 
-        if (page == 0) {
-            RetrofitApi.getEmployees(new EmployeeParam(0, "", true), this);
+        loadEmployeesListener();
+    }
+
+    private void loadEmployeesListener() {
+        if (hasNext) {
+            loading = true;
+            RetrofitApi.getEmployees(new EmployeeParam(page, edt_search.getText().toString(), true), EmployeesActivity.this);
         }
     }
 
@@ -87,9 +91,22 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
         ibt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adapter.employees.clear();
                 page = 0;
-                RetrofitApi.getEmployees(
-                        new EmployeeParam(page, edt_search.getText().toString(), true), EmployeesActivity.this);
+                total = 0;
+                hasNext = true;
+                loading = true;
+                loadEmployeesListener();
+            }
+        });
+
+        rv_employees.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (hasNext && !rv_employees.canScrollVertically(1) && !loading) {
+                    loadEmployeesListener();
+                }
             }
         });
     }
@@ -100,6 +117,7 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
         adapter.notifyItemChanged(i);
     }
 
+//  Được gọi khi tìm kiếm nhân viên hoặc khi load thêm nhân viên
     @Override
     public void setOnLoadEmployeeListener(EmployeeContainer container) {
         size = container.data.size;
@@ -109,15 +127,28 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
         page = container.data.page;
 
         if (page == 1) {
-            tv_count.setText(String.valueOf(total));
-            adapter.employees.clear();
-            adapter.employees.addAll(container.data.items);
-            adapter.notifyDataSetChanged();
+//            tv_count.setText(String.valueOf(total));
+////            employees.clear();
+////            employees.addAll(container.data.items);
+//            adapter.employees_loaded.clear();
+//            int len = container.data.items.size();
+//            for (int j = 0; j < len; j++) {
+//                adapter.employees_loaded.add(ReloadMode.INITIAL);
+//            }
+//            adapter.notifyDataSetChanged();
+            adapter = new EmployeeAdapter(this, container.data.items);
+            rv_employees.setAdapter(adapter);
+            rv_employees.setLayoutManager(new LinearLayoutManager(this));
         } else {
             int i = adapter.employees.size();
+            int len = container.data.items.size();
+            for (int j = 0; j < len; j++) {
+                adapter.employees_loaded.add(ReloadMode.INITIAL);
+            }
             adapter.employees.addAll(container.data.items);
-            adapter.notifyItemRangeChanged(i, container.data.items.size());
+            adapter.notifyItemRangeInserted(i, len);
         }
+
         loading = false;
     }
 

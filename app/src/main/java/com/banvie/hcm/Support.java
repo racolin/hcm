@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Support {
     public static byte[] convertDrawableToBytes(Drawable drawable) {
+
+
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
