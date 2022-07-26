@@ -83,7 +83,6 @@ public class Support {
 
     private static String convertUpper(String str) {
         String s = str.toLowerCase();
-
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
@@ -96,13 +95,8 @@ public class Support {
         return String.join(" ", r);
     }
 
-    public static String convertFirstUpper(String str) {
+    public static String convertFirstWordUpper(String str) {
         String[] ss = convertUpper(str).split("_");
         return String.join(" ", ss);
-    }
-
-    public static String getFirstTextOfName(String firstName) {
-        String[] s = firstName.split(" ");
-        return s[s.length - 1].substring(0, 1);
     }
 }

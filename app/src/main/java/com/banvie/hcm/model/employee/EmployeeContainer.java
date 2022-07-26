@@ -2,7 +2,7 @@ package com.banvie.hcm.model.employee;
 
 import java.util.List;
 
-public class EmployeeContainer {
+public class EmployeeContainer<T> {
     public String code = "";
-    public EmployeeWrap data = new EmployeeWrap();
+    public EmployeeWrap<T> data = new EmployeeWrap();
 }

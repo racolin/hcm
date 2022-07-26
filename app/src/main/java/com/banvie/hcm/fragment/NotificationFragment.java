@@ -33,7 +33,7 @@ public class NotificationFragment extends Fragment {
     ViewPager2 vp2_notifications;
 
     OnLoadNotificationsNumberListener listener;
-    NotificationParam paramAll = new NotificationParam(Constant.userInformation.userId, 0, "true", 0,15);
+    NotificationParam paramAll = new NotificationParam(Constant.userInformation.userId, 0, "null", 0,15);
     NotificationParam paramUnread = new NotificationParam(Constant.userInformation.userId, 0, "false", 0,15);
 
     public NotificationFragment() {

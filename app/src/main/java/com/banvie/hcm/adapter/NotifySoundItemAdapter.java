@@ -33,7 +33,7 @@ public class NotifySoundItemAdapter extends RecyclerView.Adapter<NotifySoundItem
 
     @Override
     public void onBindViewHolder(@NonNull NotifySoundItemHolder holder, int position) {
-        holder.swt_title.setText(Support.convertFirstUpper(notifySounds.get(position).title));
+        holder.swt_title.setText(Support.convertFirstWordUpper(notifySounds.get(position).title));
         holder.swt_title.setChecked(notifySounds.get(position).notifyOnMobile);
         holder.swt_sound.setChecked(notifySounds.get(position).soundNotifyOnMobile);
     }

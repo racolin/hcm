@@ -18,6 +18,7 @@ import com.banvie.hcm.listener.OnLoginListener;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOutContainer;
 import com.banvie.hcm.model.education.EducationContainer;
+import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
 import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
 import com.banvie.hcm.model.individual.IndividualContainer;
@@ -346,9 +347,9 @@ public class RetrofitApi {
     }
 
     static public void getEmployees(EmployeeParam param, OnLoadEmployeeListener listener) {
-        ApiService.apiService.getEmployees(param.page, param.search, param.isMore).enqueue(new Callback<EmployeeContainer>() {
+        ApiService.apiService.getEmployees(param.page, param.search, param.isMore).enqueue(new Callback<EmployeeContainer<Employee>>() {
             @Override
-            public void onResponse(Call<EmployeeContainer> call, Response<EmployeeContainer> response) {
+            public void onResponse(Call<EmployeeContainer<Employee>> call, Response<EmployeeContainer<Employee>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     EmployeeContainer container = response.body();
                     listener.setOnLoadEmployeeListener(container);
@@ -358,7 +359,7 @@ public class RetrofitApi {
             }
 
             @Override
-            public void onFailure(Call<EmployeeContainer> call, Throwable t) {
+            public void onFailure(Call<EmployeeContainer<Employee>> call, Throwable t) {
                 Log.d("rrrrgetEmployees", t.getMessage());
 
             }

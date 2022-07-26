@@ -54,7 +54,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         holder.tv_name.setText(organizations.get(position).fullName);
         holder.tv_type.setText(organizations.get(position).jobTitle.name);
         if (organizations.get(position).image_bytes == null) {
-            holder.tv_avatar.setText(Support.getFirstTextOfName(organizations.get(i).fullName));
+            holder.tv_avatar.setText(organizations.get(i).username.substring(0, 1).toUpperCase());
         } else {
             holder.tv_avatar.setText("");
             holder.iv_avatar.setImageBitmap(

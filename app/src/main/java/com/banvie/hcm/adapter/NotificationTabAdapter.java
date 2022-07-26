@@ -78,17 +78,26 @@ public class NotificationTabAdapter extends FragmentStateAdapter
     public void onRemoveNotification(List<String> ids) {
         request.removeNotification(ids);
         all.removeNotification(ids);
+        updateNumberOfNotification();
     }
 
     @Override
     public void onReadNotification(List<String> ids) {
         request.readNotification(ids);
         all.readNotification(ids);
+        updateNumberOfNotification();
     }
 
     @Override
     public void onReadNotifications() {
         request.readNotifications();
         all.readNotifications();
+        updateNumberOfNotification();
+    }
+
+    private void updateNumberOfNotification() {
+        RetrofitApi.getNotifications(
+                new NotificationParam(Constant.userInformation.userId,
+                        0, null, 0, 15), listener);
     }
 }

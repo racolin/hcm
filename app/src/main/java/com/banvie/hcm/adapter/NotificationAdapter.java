@@ -54,6 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
 //        initUI
+        final  int i = position;
         holder.tv_time.setText(Support.convertToTimeAgo(notifications.get(position).sendDate));
         holder.tv_title.setText(HtmlCompat.fromHtml(notifications.get(position).shortContent, HtmlCompat.FROM_HTML_MODE_COMPACT));
 
@@ -69,10 +70,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            notifications.get(holder.getAdapterPosition()).image_bytes = Support.reduceImage(response.body().bytes());
+                            notifications.get(i).image_bytes = Support.reduceImage(response.body().bytes());
                             holder.iv_notification.setImageBitmap(
-                                    (BitmapFactory.decodeByteArray(notifications.get(holder.getAdapterPosition()).image_bytes,
-                                            0, notifications.get(holder.getAdapterPosition()).image_bytes.length)));
+                                    (BitmapFactory.decodeByteArray(notifications.get(i).image_bytes,
+                                            0, notifications.get(i).image_bytes.length)));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

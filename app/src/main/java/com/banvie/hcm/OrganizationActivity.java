@@ -30,6 +30,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class OrganizationActivity extends AppCompatActivity implements OnLoadItemOrganizationListener {
 
     RecyclerView rv_top, rv_bot;
+
     List<OrganizationChart> top, bot;
     OrganizationAdapter adapter_top, adapter_bot;
     Disposable disposable;

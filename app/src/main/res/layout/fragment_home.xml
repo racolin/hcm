@@ -101,11 +101,12 @@
 
             <TextView
                 android:id="@+id/tv_notices"
-                android:padding="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fg_tools"
                 android:fontFamily="@font/inter_bold"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/notices"
                 android:textSize="18sp" />
 

@@ -81,13 +81,13 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                         BitmapFactory.decodeByteArray(img, 0, img.length)));
             }
         }
-
+        final int i = position;
 //        initListener
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EmployeeActivity.class);
-                intent.putExtra("employeeId", employees.get(holder.getAdapterPosition()).id);
+                intent.putExtra("cif", employees.get(i).cif);
                 context.startActivity(intent);
             }
         });

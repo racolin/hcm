@@ -92,10 +92,6 @@ public class ListNotificationFragment extends Fragment
             @Override
             public void onClick(View view) {
                 option.readNotifications();
-                for (Notification n : adapter.notifications) {
-                    n.read = true;
-                }
-                adapter.notifyDataSetChanged();
             }
         });
 
@@ -124,22 +120,29 @@ public class ListNotificationFragment extends Fragment
     }
 
     public void readNotification(List<String> ids) {
+        if (param.statusRead.equals("false")) {
+            removeNotification(ids);
+            return;
+        }
         for (String id : ids) {
             Notification n = new Notification();
             n.notificationId = id;
             int i = adapter.notifications.indexOf(n);
-            adapter.notifications.get(i).read = false;
-            adapter.notifyItemChanged(i);
+            if (i != -1 && adapter.notifications.get(i).read == false) {
+                adapter.notifications.get(i).read = true;
+                adapter.notifyItemChanged(i);
+            }
         }
     }
 
     public void readNotifications() {
-        for (Notification n : adapter.notifications) {
-            if (n.read == false) {
-                n.read = true;
+        int len = adapter.notifications.size();
+        for (int i = 0; i < len; i++) {
+            if (adapter.notifications.get(i).read == false) {
+                adapter.notifications.get(i).read = true;
+                adapter.notifyItemChanged(i);
             }
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -153,8 +156,6 @@ public class ListNotificationFragment extends Fragment
         adapter.notifications.addAll(ns);
 
         listener.setOnNotificationsNumberListener(container.unReadCount);
-
-        Log.d("rrrrrrrrrrrrrrrrrrrr", i + "=" + c);
 
         adapter.notifyItemRangeInserted(i, c);
 

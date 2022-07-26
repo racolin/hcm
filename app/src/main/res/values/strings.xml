@@ -92,4 +92,6 @@
     <string name="position">Position</string>
     <string name="checkinout_title">Check in / Check out</string>
     <string name="notification_content">Notification</string>
+    <string name="nation">Nationality</string>
+    <string name="employee">Employee Information</string>
 </resources>

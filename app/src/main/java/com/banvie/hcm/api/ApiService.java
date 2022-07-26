@@ -5,7 +5,9 @@ import com.banvie.hcm.model.RefreshToken;
 import com.banvie.hcm.model.Token;
 import com.banvie.hcm.model.checkout.CheckOutContainer;
 import com.banvie.hcm.model.education.EducationContainer;
+import com.banvie.hcm.model.employee.Employee;
 import com.banvie.hcm.model.employee.EmployeeContainer;
+import com.banvie.hcm.model.employee.EmployeeInformation;
 import com.banvie.hcm.model.employee_duration.EmployeeDurationContainer;
 import com.banvie.hcm.model.individual.IndividualContainer;
 import com.banvie.hcm.model.notification.NotificationContainer;
@@ -96,7 +98,10 @@ public interface ApiService {
     Call<List<NotifySoundContainer>> getNotifySound();
 
     @GET("accountapp/v1.0/employees")
-    Call<EmployeeContainer> getEmployees(@Query("page") int page, @Query("search") String search, @Query("isMore") boolean isMore);
+    Call<EmployeeContainer<Employee>> getEmployees(@Query("page") int page, @Query("search") String search, @Query("isMore") boolean isMore);
+
+    @GET("accountapp/v1.0/employees")
+    Call<EmployeeContainer<EmployeeInformation>> getEmployee(@Query("page") int page, @Query("search") String search, @Query("isMore") boolean isMore);
 
     @GET("accountapp/v1.0/org-chart")
     Call<OrganizationChart> getOrganizationChart();

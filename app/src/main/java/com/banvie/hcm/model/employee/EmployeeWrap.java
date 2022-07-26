@@ -2,8 +2,8 @@ package com.banvie.hcm.model.employee;
 
 import java.util.List;
 
-public class EmployeeWrap {
-    public List<Employee> items;
+public class EmployeeWrap<T> {
+    public List<T> items;
     public int page;
     public int size;
 //    public int totalItems;
