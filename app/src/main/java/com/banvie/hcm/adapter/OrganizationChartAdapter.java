@@ -66,14 +66,16 @@ public class OrganizationChartAdapter extends RecyclerView.Adapter<OrganizationC
         if (position == focus) {
             ((GradientDrawable) holder.layout.getBackground().mutate()).setStroke(2, context.getColor(R.color.yellow));
         }
+
         holder.ibt_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EmployeeActivity.class);
-                intent.putExtra("employeeId", organizations.get(holder.getAdapterPosition()).id);
+                intent.putExtra("cif", organizations.get(holder.getAdapterPosition()).code);
                 context.startActivity(intent);
             }
         });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

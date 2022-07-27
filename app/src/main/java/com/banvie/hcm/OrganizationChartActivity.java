@@ -61,16 +61,16 @@ public class OrganizationChartActivity extends AppCompatActivity
         @Override
         public void subscribe(@NonNull ObservableEmitter<OrganizationChart> emitter) throws Throwable {
             OrganizationChart chart = ApiService.apiService.getOrganizationChart(userId).execute().body();
-//            if (chart.profile.image != null && !chart.profile.image.equals("")) {
-//                chart.image_bytes = Support.reduceImage(ApiService.apiService.getImage(chart.profile.image).execute().body().bytes());
-//                OrganizationChart c = chart;
-//                if (chart.descendants.size() == 1) {
-//                    c = c.descendants.get(0);
-//                    if (c.profile.image != null && !c.profile.image.equals("")) {
-//                        c.image_bytes = Support.reduceImage(ApiService.apiService.getImage(c.profile.image).execute().body().bytes());
-//                    }
-//                }
-//            }
+            if (chart.profile.image != null && !chart.profile.image.equals("")) {
+                chart.image_bytes = Support.reduceImage(ApiService.apiService.getImage(chart.profile.image).execute().body().bytes());
+                OrganizationChart c = chart;
+                if (chart.descendants.size() == 1) {
+                    c = c.descendants.get(0);
+                    if (c.profile.image != null && !c.profile.image.equals("")) {
+                        c.image_bytes = Support.reduceImage(ApiService.apiService.getImage(c.profile.image).execute().body().bytes());
+                    }
+                }
+            }
             emitter.onNext(chart);
             emitter.onComplete();
         }
@@ -84,7 +84,6 @@ public class OrganizationChartActivity extends AppCompatActivity
 
         @Override
         public void onNext(@NonNull OrganizationChart organizationChart) {
-//            Log.d("rrrxxx", userId);
             top.setVisibility(View.VISIBLE);
             ((GradientDrawable) layout.getBackground().mutate())
                     .setStroke(1, getColor(R.color.stroke));
@@ -143,7 +142,6 @@ public class OrganizationChartActivity extends AppCompatActivity
             OrganizationChart o = new OrganizationChart();
             o.id = userId;
             adapter.focus = organizationChart.descendants.indexOf(o);
-            Log.d("rrrxxx2", " " + adapter.focus);
             adapter.notifyDataSetChanged();
 
 

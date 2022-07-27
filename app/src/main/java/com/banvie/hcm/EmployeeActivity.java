@@ -39,10 +39,8 @@ public class EmployeeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
 
-        cif = getIntent().getStringExtra("cif");
-
-        if (cif != null && !cif.equals("")) {
-            ApiService.apiService.getEmployee(0, cif, true).enqueue(new Callback<EmployeeContainer<EmployeeInformation>>() {
+        if (getIntent().hasExtra("cif")) {
+            ApiService.apiService.getEmployee(0, getIntent().getStringExtra("cif"), true).enqueue(new Callback<EmployeeContainer<EmployeeInformation>>() {
                 @Override
                 public void onResponse(Call<EmployeeContainer<EmployeeInformation>> call, Response<EmployeeContainer<EmployeeInformation>> response) {
                     if (response.isSuccessful() && response.body() != null && response.body().data.items.size() == 1) {
@@ -117,14 +115,19 @@ public class EmployeeActivity extends AppCompatActivity
 
     private void initListener() {
         ibt_org.setOnClickListener((view) -> {
-            Intent intent = new Intent(this, OrganizationChartActivity.class);
+            Intent intent = new Intent(this, OrganizationActivity.class);
+            intent.putExtra("id", employee.id);
+            startActivity(intent);
         });
+
         ibt_chat.setOnClickListener((view) -> {
 
         });
+
         ibt_mess.setOnClickListener((view) -> {
 
         });
+
         ibt_call.setOnClickListener((view) -> {
 
         });

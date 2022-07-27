@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import com.banvie.hcm.adapter.OrganizationAdapter;
 import com.banvie.hcm.api.ApiService;
-import com.banvie.hcm.listener.OnLoadItemOrganizationListener;
+import com.banvie.hcm.api.Constant;
+import com.banvie.hcm.listener.OnClickItemOrganizationListener;
 import com.banvie.hcm.model.organization_chart.OrganizationChart;
+import com.banvie.hcm.model.summary.Organization;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -27,59 +28,57 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class OrganizationActivity extends AppCompatActivity implements OnLoadItemOrganizationListener {
+public class OrganizationActivity extends AppCompatActivity
+        implements OnClickItemOrganizationListener {
 
     RecyclerView rv_top, rv_bot;
-
-    List<OrganizationChart> top, bot;
     OrganizationAdapter adapter_top, adapter_bot;
-    Disposable disposable;
-    String m;
 
-    ObservableOnSubscribe<OrganizationChart> start = new ObservableOnSubscribe<OrganizationChart>() {
+    Disposable disposable;
+    String userId;
+
+    ObservableOnSubscribe<OrganizationChart> subscribeInit = new ObservableOnSubscribe<OrganizationChart>() {
         @Override
         public void subscribe(@NonNull ObservableEmitter<OrganizationChart> emitter) throws Throwable {
-            OrganizationChart chart = ApiService.apiService.getOrganizationChart().execute().body();
+            OrganizationChart chart = ApiService.apiService.getOrganizationChart(userId).execute().body();
 
             while (chart.descendants.size() == 1) {
-                if (chart != null && !chart.profile.image.equals("")) {
-
-                    chart.image_bytes = ApiService.apiService.getImage(chart.profile.image).execute().body().bytes();
-                }
                 emitter.onNext(chart);
                 chart = chart.descendants.get(0);
             }
-            if (chart != null && !chart.profile.image.equals("")) {
 
-                chart.image_bytes = ApiService.apiService.getImage(chart.profile.image).execute().body().bytes();
-            }
             emitter.onNext(chart);
-            for (OrganizationChart c : chart.descendants) {
-                if (c != null && !c.profile.image.equals("")) {
 
-                    c.image_bytes = ApiService.apiService.getImage(c.profile.image).execute().body().bytes();
-                }
+            for (OrganizationChart c : chart.descendants) {
                 emitter.onNext(c);
             }
+
+            emitter.onComplete();
         }
     };
 
-    ObservableOnSubscribe<OrganizationChart> more = new ObservableOnSubscribe<OrganizationChart>() {
+    ObservableOnSubscribe<OrganizationChart> subscribeMore = new ObservableOnSubscribe<OrganizationChart>() {
         @Override
         public void subscribe(@NonNull ObservableEmitter<OrganizationChart> emitter) throws Throwable {
-            OrganizationChart chart = ApiService.apiService.getOrganizationChart(m).execute().body();
+            OrganizationChart chart = ApiService.apiService.getOrganizationChart(userId).execute().body();
 
-            chart = chart.descendants.get(0);
-
-            int i = top.indexOf(chart);
-
-            for (OrganizationChart c : chart.descendants) {
-                if (c != null && !c.profile.image.equals("")) {
-
-                    c.image_bytes = ApiService.apiService.getImage(c.profile.image).execute().body().bytes();
-                }
-                emitter.onNext(c);
+            while (chart.descendants.size() == 1) {
+                chart = chart.descendants.get(0);
             }
+
+//            Kiểm tra xem có đúng là người manager ở cuối có phải là user hay không.
+//            Nếu phải thì  ta cần xóa apdater_bot
+//            Nếu không thì ta không làm gì
+            if (chart.id.equals(userId)) {
+
+                emitter.onNext(chart);
+
+                for (OrganizationChart c : chart.descendants) {
+                    emitter.onNext(c);
+                }
+            }
+
+            emitter.onComplete();
         }
     };
 
@@ -91,26 +90,54 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
 
         @Override
         public void onNext(@NonNull OrganizationChart organizationChart) {
-            Log.d("rrr", organizationChart.fullName);
             if (organizationChart.descendants.size() != 0) {
-                top.add(organizationChart);
-                adapter_top.notifyItemInserted(top.size() - 1);
+                adapter_top.organizations.add(organizationChart);
+                if (organizationChart.id.equals(userId)) {
+                    adapter_bot = new OrganizationAdapter(OrganizationActivity.this, OrganizationActivity.this, new ArrayList<>(), -1, false);
+                    rv_bot.setAdapter(adapter_bot);
+                    rv_bot.setLayoutManager(new LinearLayoutManager(OrganizationActivity.this));
+//                    unFocus();
+//                    adapter_top.focus = adapter_top.organizations.size() - 1;
+                }
+                adapter_top.notifyItemInserted(adapter_top.organizations.size() - 1);
             } else {
-                bot.add(organizationChart);
-                adapter_bot.notifyItemInserted(bot.size() - 1);
+                adapter_bot.organizations.add(organizationChart);
+                if (organizationChart.id.equals(userId)) {
+//                    unFocus();
+//                    adapter_bot.focus = adapter_bot.organizations.size() - 1;
+                }
+                adapter_bot.notifyItemInserted(adapter_bot.organizations.size() - 1);
             }
+
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
-
+            disposable.dispose();
         }
 
         @Override
         public void onComplete() {
-                disposable.dispose();
+            adapter_top.isLoad = false;
+            adapter_bot.isLoad = false;
+
+            disposable.dispose();
         }
     };
+
+//    private void unFocus() {
+//        int i = adapter_top.focus;
+//        adapter_top.focus = -1;
+//        if (i != -1) {
+//            adapter_top.notifyItemChanged(i);
+//        }
+//
+//        i = adapter_bot.focus;
+//        adapter_bot.focus = -1;
+//        if (i != -1) {
+//            adapter_bot.notifyItemChanged(i);
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,24 +150,29 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
 
     private void initUI() {
         setupToolbar();
-        top = new ArrayList<>();
-        bot = new ArrayList<>();
-        rv_bot = findViewById(R.id.rv_bot);
+
+        if (getIntent().hasExtra("id")) {
+            userId = getIntent().getStringExtra("id");
+        } else {
+            userId = Constant.userInformation.userId;
+        }
+
         rv_top = findViewById(R.id.rv_top);
+        rv_bot = findViewById(R.id.rv_bot);
 
-        adapter_bot = new OrganizationAdapter(this, this, bot, -1,false);
-        adapter_top = new OrganizationAdapter(this, this, top, 0, true);
+        adapter_top = new OrganizationAdapter(this, this, new ArrayList<>(), -1, true);
+        adapter_bot = new OrganizationAdapter(this, this, new ArrayList<>(), -1,false);
 
-        rv_bot.setAdapter(adapter_bot);
         rv_top.setAdapter(adapter_top);
-        rv_bot.setLayoutManager(new LinearLayoutManager(this));
+        rv_bot.setAdapter(adapter_bot);
         rv_top.setLayoutManager(new LinearLayoutManager(this));
+        rv_bot.setLayoutManager(new LinearLayoutManager(this));
 
-        loadFirst();
+        loadInit();
     }
 
     private void loadMore() {
-        Observable<OrganizationChart> observable = Observable.create(more);
+        Observable<OrganizationChart> observable = Observable.create(subscribeMore);
 
         observable
                 .subscribeOn(Schedulers.io())
@@ -148,9 +180,10 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
                 .subscribe(observer);
     }
 
-    private void loadFirst() {
+//    Load org khi vừa mới click vào
+    private void loadInit() {
 
-        Observable<OrganizationChart> observable = Observable.create(start);
+        Observable<OrganizationChart> observable = Observable.create(subscribeInit);
 
         observable
                 .subscribeOn(Schedulers.io())
@@ -172,8 +205,6 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
     }
 
     private void setupToolbar() {
-        
-
         Toolbar toolbar = findViewById(R.id.tb);
 
         setSupportActionBar(toolbar);
@@ -186,81 +217,27 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
     }
 
     @Override
-    public void _setOnClickItemOrganizationListener(int position) {
-
-    }
-
-    @Override
     public void setOnClickItemOrganizationListener(int position, boolean isManager) {
+        adapter_bot.isLoad = true;
+        adapter_top.isLoad = true;
+//        unFocus();
         if (isManager) {
-            m = top.get(position).id;
-            top.subList(position + 1, top.size()).clear();
-            adapter_top.notifyDataSetChanged();
-        } else {
-            m = bot.get(position).id;
-            top.add(bot.get(position));
-            adapter_top.notifyItemChanged(top.size() - 1);
+            userId = adapter_top.organizations.get(position).id;
+            int len = adapter_top.organizations.size();
+
+            for (int i = len - 1; i >= position; i--) {
+                adapter_top.organizations.remove(i);
+            }
+            adapter_top.notifyItemRangeRemoved(position,len - position + 1);
+
+            adapter_bot = new OrganizationAdapter(this, this, new ArrayList<>(), -1, false);
+            rv_bot.setAdapter(adapter_bot);
+            rv_bot.setLayoutManager(new LinearLayoutManager(this));
         }
-        bot.clear();
-        adapter_bot.notifyDataSetChanged();
+        else {
+            userId = adapter_bot.organizations.get(position).id;
+        }
         loadMore();
-        //        adapter_bot.isLoad = true;
-//        adapter_top.isLoad = true;
-//        int focus_top = adapter_top.focus;
-//
-//        if (focus_top != -1) {
-//            adapter_top.focus = -1;
-//            adapter_top.notifyItemChanged(focus_top);
-//        }
-//        int focus_bot = adapter_bot.focus;
-//        if (focus_bot != -1) {
-//            adapter_bot.focus = -1;
-//            adapter_bot.notifyItemChanged(focus_bot);
-//        }
-//
-//        if (!isManager) {
-//            int f = adapter_top.focus = top.size();
-//            top.add(bot.get(position));
-//            adapter_top.notifyItemChanged(f);
-//        } else {
-//            int f = adapter_bot.focus = -1;
-//            adapter_bot.notifyItemChanged(f);
-//
-//            int len = top.size();
-//            for (int i = position + 1; i < len; i++) {
-//                top.remove(i);
-//            }
-//
-//            adapter_top.notifyItemRangeRemoved(position + 1, len - position - 1);
-//        }
-//
-//
-////        setOnLoadItemOrganizationListener(getEmployees(4));
-    }
-
-    @Override
-    public void setOnLoadItemOrganizationListener(OrganizationChart organization) {
-        bot.clear();
-//        bot.addAll(employees);
-        adapter_bot.notifyDataSetChanged();
-        adapter_bot.isLoad = false;
-        adapter_top.isLoad = false;
-    }
-
-    @Override
-    public void setOnLoadFirstOrganizationListener(OrganizationChart organization) {
-
-        List<OrganizationChart> orgs = organization.descendants;
-        OrganizationChart org = organization;
-        top.add(org);
-        while (orgs.size() == 1) {
-            org = org.descendants.get(0);
-            top.add(org);
-            orgs = org.descendants;
-        }
-        bot.addAll(orgs);
-        adapter_bot.notifyDataSetChanged();
-        adapter_top.notifyDataSetChanged();
     }
 
     @Override
@@ -273,10 +250,5 @@ public class OrganizationActivity extends AppCompatActivity implements OnLoadIte
         }
 
         return true;
-    }
-
-    @Override
-    public void setOnLoadImageListener(byte[] image, int i) {
-
     }
 }

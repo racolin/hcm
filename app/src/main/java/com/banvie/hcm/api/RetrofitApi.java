@@ -29,6 +29,7 @@ import com.banvie.hcm.model.shui.ShuiContainer;
 import com.banvie.hcm.model.summary.SummaryContainer;
 import com.banvie.hcm.param.EmployeeParam;
 import com.banvie.hcm.param.NotificationParam;
+import com.banvie.hcm.param.PolicyParam;
 import com.banvie.hcm.param.UserParam;
 import com.banvie.hcm.model.policy.Policy;
 import com.banvie.hcm.model.policy.PolicyContainer;
@@ -62,7 +63,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
-                Log.d("rrrrlogin", t.getMessage());
+                Log.d("debug:login", t.getMessage());
             }
         });
     }
@@ -74,12 +75,6 @@ public class RetrofitApi {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Policy> policies = response.body().data.items;
                     listener.setOnLoadedNotices(policies);
-                    int len = policies.size();
-                    for (int i = 0; i < len; i++) {
-                        if (policies.get(i).thumbnail != null && !policies.get(i).thumbnail.equals("")) {
-                            getImage(policies.get(i).thumbnail, i, listener);
-                        }
-                    }
                 }
                 else {
 
@@ -88,7 +83,27 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<PolicyContainer> call, Throwable t) {
-                Log.d("rrrrcallNotices", t.getMessage());
+                Log.d("debug:callNotices", t.getMessage());
+            }
+        });
+    }
+
+    static public void callNotices(PolicyParam param, OnLoadedNoticesListener listener) {
+        ApiService.apiService.getPolicy(param).enqueue(new Callback<PolicyContainer>() {
+            @Override
+            public void onResponse(Call<PolicyContainer> call, Response<PolicyContainer> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Policy> policies = response.body().data.items;
+                    listener.setOnLoadedNotices(policies);
+                }
+                else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PolicyContainer> call, Throwable t) {
+                Log.d("debug:callNotices", t.getMessage());
             }
         });
     }
@@ -106,7 +121,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<NotificationContainer> call, Throwable t) {
-                Log.d("rrrrgetNotifications", t.getMessage());
+                Log.d("debug:getNotifications", t.getMessage());
             }
         });
     }
@@ -121,7 +136,6 @@ public class RetrofitApi {
                         int len = image.length;
                         if (len > 5000) {
                             Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, len);
-                            Log.d("rrr", image.length + "");
                             if (bitmap != null) {
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                                 bitmap.compress(Bitmap.CompressFormat.JPEG, (int) ((5000.0 /  len) * 100), bos);
@@ -130,7 +144,6 @@ public class RetrofitApi {
                                 listener.setOnLoadImageListener(image, i);
                                 return;
                             }
-                            Log.d("rrrrrrrrrr", len + " " + image.length);
                         }
                         listener.setOnLoadImageListener(image, i);
                     } catch (IOException e) {
@@ -141,7 +154,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("rrrrgetImage", t.getMessage());
+                Log.d("debug:getImage", t.getMessage());
             }
         });
     }
@@ -159,7 +172,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<NotificationContainer> call, Throwable t) {
-                Log.d("rrrrgetNotifications", t.getMessage());
+                Log.d("debug:getNotifications", t.getMessage());
             }
         });
     }
@@ -192,7 +205,7 @@ public class RetrofitApi {
 
                     @Override
                     public void onFailure(Call<SummaryContainer> call, Throwable t) {
-                        Log.d("rrrrgetUserSummary", t.getMessage());
+                        Log.d("debug:getUserSummary", t.getMessage());
                     }
                 });
     }
@@ -211,7 +224,7 @@ public class RetrofitApi {
 
                     @Override
                     public void onFailure(Call<EmployeeDurationContainer> call, Throwable t) {
-                        Log.d("rrrrgetEmployeeDuration", t.getMessage());
+                        Log.d("debug:getEmployeeDuration", t.getMessage());
                     }
                 });
     }
@@ -230,7 +243,7 @@ public class RetrofitApi {
 
                     @Override
                     public void onFailure(Call<EducationContainer> call, Throwable t) {
-                        Log.d("rrrrgetEducation", t.getMessage());
+                        Log.d("debug:getEducation", t.getMessage());
                     }
                 });
     }
@@ -249,7 +262,7 @@ public class RetrofitApi {
 
                     @Override
                     public void onFailure(Call<ShuiContainer> call, Throwable t) {
-                        Log.d("rrrrgetShui", t.getMessage());
+                        Log.d("debug:getShui", t.getMessage());
                     }
                 });
     }
@@ -268,7 +281,7 @@ public class RetrofitApi {
 
                     @Override
                     public void onFailure(Call<IndividualContainer> call, Throwable t) {
-                        Log.d("rrrrgetIndividual", t.getMessage());
+                        Log.d("debug:getIndividual", t.getMessage());
                     }
                 });
     }
@@ -286,7 +299,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<List<NotifySoundContainer>> call, Throwable t) {
-                Log.d("rrrrgetNotifySound", t.getMessage());
+                Log.d("debug:getNotifySound", t.getMessage());
             }
         });
     }
@@ -304,7 +317,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("rrrrreadNotification", t.getMessage());
+                Log.d("debug:readNotification", t.getMessage());
             }
         });
     }
@@ -322,7 +335,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("rrrrremoveNotification", t.getMessage());
+                Log.d("debug:removeNotification", t.getMessage());
             }
         });
     }
@@ -340,7 +353,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("rrrrreadNotifications", t.getMessage());
+                Log.d("debug:readNotifications", t.getMessage());
             }
         });
 
@@ -360,7 +373,7 @@ public class RetrofitApi {
 
             @Override
             public void onFailure(Call<EmployeeContainer<Employee>> call, Throwable t) {
-                Log.d("rrrrgetEmployees", t.getMessage());
+                Log.d("debug:getEmployees", t.getMessage());
 
             }
         });

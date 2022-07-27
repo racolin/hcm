@@ -17,6 +17,7 @@ import com.banvie.hcm.EmployeesActivity;
 import com.banvie.hcm.OrganizationActivity;
 import com.banvie.hcm.OrganizationChartActivity;
 import com.banvie.hcm.R;
+import com.banvie.hcm.api.Constant;
 import com.banvie.hcm.listener.OnClickAddOrRemoveToolListener;
 import com.banvie.hcm.type.ToolId;
 import com.banvie.hcm.type.ToolsType;
@@ -173,7 +174,9 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolHolder> {
                 context.startActivity(emp);
                 break;
             case ORGANIZATION_CHART:
-                Intent org = new Intent(context, OrganizationChartActivity.class);
+//                Intent org = new Intent(context, OrganizationChartActivity.class);
+                Intent org = new Intent(context, OrganizationActivity.class);
+                org.putExtra("id", Constant.userInformation.userId);
                 context.startActivity(org);
                 break;
             case KNOWLEDGE_BASE:

@@ -14,11 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.banvie.hcm.NoticeActivity;
 import com.banvie.hcm.R;
+import com.banvie.hcm.api.ApiService;
 import com.banvie.hcm.model.policy.Policy;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.Disposable;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHolder> {
 
@@ -40,10 +46,33 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeHold
     public void onBindViewHolder(@NonNull NoticeHolder holder, int position) {
         holder.tv_title.setText(policies.get(position).topic);
         holder.tv_time.setText(policies.get(position).getTimeString("MMM dd, yyyy HH:mm"));
-        byte[] image = policies.get(position).image;
-        if (image != null) {
-            holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+        if (!policies.get(position).thumbnail.equals("")) {
+            byte[] image = policies.get(position).image;
+            if (image != null) {
+                holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+            } else {
+                ApiService.apiService.getImage(policies.get(position).thumbnail).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            try {
+                                byte[] image = response.body().bytes();
+                                holder.iv_notice.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+                                policies.get(holder.getAdapterPosition()).image = image;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
         }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

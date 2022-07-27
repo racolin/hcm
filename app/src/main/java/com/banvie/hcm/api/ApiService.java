@@ -16,6 +16,7 @@ import com.banvie.hcm.model.organization_chart.OrganizationChart;
 import com.banvie.hcm.model.shui.ShuiContainer;
 import com.banvie.hcm.model.summary.SummaryContainer;
 import com.banvie.hcm.param.NotificationParam;
+import com.banvie.hcm.param.PolicyParam;
 import com.banvie.hcm.param.UserParam;
 import com.banvie.hcm.model.policy.PolicyContainer;
 import com.squareup.moshi.Moshi;
@@ -57,6 +58,9 @@ public interface ApiService {
 
     @GET("mytimeapp/v1.0/policies")
     Call<PolicyContainer> getPolicy();
+
+    @POST("mytimeapp/v1.0/policies")
+    Call<PolicyContainer> getPolicy(@Body PolicyParam param);
 
     @GET(Environment.environment + "fileapp/store/file/get")
     Call<ResponseBody> getImage(@Query("subPath") String subPath);

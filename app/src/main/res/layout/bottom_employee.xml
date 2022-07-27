@@ -18,21 +18,22 @@
         android:layout_width="64dp"
         android:layout_height="64dp">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:background="@color/blue"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_avatar"-->
+<!--            android:background="@color/blue"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
 
         <TextView
             android:id="@+id/tv_avatar"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="32sp"
             android:fontFamily="@font/inter_semibold"
             android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </com.google.android.material.card.MaterialCardView>
 
