@@ -100,7 +100,7 @@
         <entry key="app/src/main/res/layout/activity_organization_chart.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.340625" />
         <entry key="app/src/main/res/layout/bottom_employee.xml" value="0.22735507246376813" />
-        <entry key="app/src/main/res/layout/bottom_manager.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/bottom_manager.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_list_notifications.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/notification.xml" value="0.340625" />

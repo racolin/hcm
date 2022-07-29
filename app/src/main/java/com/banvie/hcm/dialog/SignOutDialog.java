@@ -33,6 +33,8 @@ public class SignOutDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_yes_no);
 
+        getWindow().setBackgroundDrawableResource(R.drawable.round_32);
+
         initUI();
         initListener();
     }

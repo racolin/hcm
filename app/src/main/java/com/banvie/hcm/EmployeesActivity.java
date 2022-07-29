@@ -102,7 +102,7 @@ public class EmployeesActivity extends AppCompatActivity implements OnLoadEmploy
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (hasNext && !rv_employees.canScrollVertically(1) && !loading) {
-//                    loadEmployeesListener()new EmployeeParam(0, "", true);
+                    loadEmployeesListener(new EmployeeParam(page, edt_search.getText().toString(), true));
                 }
             }
         });
